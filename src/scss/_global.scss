@@ -1,0 +1,151 @@
+// ---- Varies ----
+$font: 'Dihjauti';
+$main: #cfbdb1;
+
+// ---- Global-Tags ----
+html {
+  overflow-x: hidden;
+  box-sizing: border-box;
+  &.fixed {
+    overflow-y: hidden;
+  }
+}
+
+*,
+*::after,
+*::before {
+  box-sizing: inherit;
+}
+
+body {
+  position: relative;
+  overflow-x: hidden;
+  min-width: 320px;
+  font-family: $font;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 18px;
+  color: #000;
+  background-color: #e1e1e3;
+  background-image: url('../assets/img/bg.jpg');
+  background-repeat: repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+a {
+  color: #000;
+}
+
+// ---- Global-Classes ----
+.container {
+  margin: 0 auto;
+  padding: 0 15px;
+  max-width: 1315px;
+}
+
+.title {
+}
+
+.btn {
+  padding: 12px 24px;
+  // font-weight: 700;
+  font-size: 20px;
+  line-height: 32px;
+  background: $main;
+  color: #000;
+  transition: 0.3s;
+  display: flex;
+  align-items: center;
+  border-radius: 30px;
+  cursor: pointer;
+
+  svg {
+    transition: 0.3s !important;
+  }
+
+  &:hover {
+    box-shadow: 0px 0px 15px rgba($main, 0.7);
+  }
+}
+
+.input-block {
+  position: relative;
+
+  .input {
+    font-family: $font;
+    font-size: 12px;
+    line-height: 18px;
+    color: #fff;
+    width: 100%;
+    height: 100%;
+    background: rgba(#000, 0.75);
+    padding: 11px 16px;
+    border: 1px solid transparent;
+    transition: 0.2s;
+
+    &::placeholder {
+      color: #fff;
+    }
+
+    &:hover,
+    &:focus {
+      border: 1px solid rgba(#fff, 0.45);
+    }
+  }
+
+  &.input-error {
+    input {
+      border: 1px solid rgb(95, 8, 8);
+    }
+  }
+}
+
+.error {
+  position: absolute;
+  bottom: -5px;
+  right: 15px;
+  z-index: 30;
+  background-color: rgb(95, 8, 8);
+  color: #000;
+  padding: 0px 5px;
+  font-size: 10px;
+  line-height: 14px;
+}
+
+.wrapper {
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 0;
+    background-color: rgba(#000, 0.3);
+  }
+}
+
+.shadow {
+  filter: drop-shadow(0px 4px 24px rgba(167, 151, 141, 0.5));
+}
+
+// ScrollBar
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba($main, 1);
+}
+
+::-webkit-scrollbar-track {
+  background-color: #1c1c1c;
+}
+
+// Selection
+::selection {
+  background: rgba($main, 0.6) !important;
+}
