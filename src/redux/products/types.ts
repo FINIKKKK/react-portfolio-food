@@ -1,11 +1,18 @@
 export type TProduct = {
-  id: number;
   img: string;
-  title: string;
+  name: string;
   text: string;
   price: number;
+  category: number;
 };
 
 export interface TProductsSlice {
-  items: TProduct[];
+  statusProduct: ProductStatus;
+  products: TProduct[];
+}
+
+export enum ProductStatus {
+  LOADING = "loading",
+  SUCCESS = "success",
+  ERROR = "error",
 }

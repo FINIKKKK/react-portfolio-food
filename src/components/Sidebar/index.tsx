@@ -10,13 +10,13 @@ export const Sidebar: React.FC = () => {
   const { categories } = useSelector(categoriesSliceSelector);
 
   React.useEffect(() => {
-    const getCategories = async () => {
+    const getCategories = () => {
       try {
         dispatch(fetchCategories());
         window.scrollTo(0, 0);
       } catch (error) {
         alert("Ошибка!");
-        console.log("Ошибка при получении ");
+        console.log("Ошибка при получении категорий...");
         console.log(error);
       }
     };
@@ -34,14 +34,14 @@ export const Sidebar: React.FC = () => {
       <ul className="sidebar__list">
         {categories.map((obj: TCategory, index) => (
           <li
-            key={obj.id}
+            key={`${obj.name}_${index}`}
             className={`sidebar__list-item + ${
               activeCategory === index ? "active" : ""
             }`}
             onClick={() => clickCategory(index)}
           >
             <svg width="20" height="20">
-              <use xlinkHref={`./icons.svg#category${obj.id}`} />
+              <use xlinkHref={`./icons.svg#category${index + 1}`} />
             </svg>
             <p>{obj.name}</p>
           </li>

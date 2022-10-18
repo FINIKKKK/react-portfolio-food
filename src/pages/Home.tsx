@@ -1,8 +1,33 @@
 import React from "react";
+import { useSelector } from "react-redux";
 
 import { Item, Sidebar } from "../components";
+import { categoriesSliceSelector } from "../redux/categories/selectors";
+import { TCategory } from "../redux/categories/types";
+import { productsSliceSelector } from "../redux/products/selectors";
+import { fetchProducts } from "../redux/products/slice";
+import { TProduct } from "../redux/products/types";
+import { useAppDispatch } from "../redux/store";
 
 export const Home: React.FC = () => {
+  const dispatch = useAppDispatch();
+
+  React.useEffect(() => {
+    const getProducts = () => {
+      try {
+        dispatch(fetchProducts());
+      } catch (error) {
+        alert("Ошибка!");
+        console.log("Ошибка при получении ");
+        console.log(error);
+      }
+    };
+    getProducts();
+  }, []);
+
+  const { products } = useSelector(productsSliceSelector);
+  const { categories } = useSelector(categoriesSliceSelector);
+
   return (
     <>
       <main className="main">
@@ -11,12 +36,18 @@ export const Home: React.FC = () => {
             <Sidebar />
 
             <div className="items">
-              <div className="items__group">
-                <h2 className="items__group-title">Суши</h2>
-                <div className="items__group-grid">
-                  <Item />
+              {categories.map((obj: TCategory, index) => (
+                <div key={`${obj.name}_${index}`} className="items__group">
+                  <h2 className="items__group-title">{obj.name}</h2>
+                  <div className="items__group-grid">
+                    {products
+                      .filter((obj: TProduct) => obj.category === index + 1)
+                      .map((obj: TProduct, index) => (
+                        <Item key={`${obj.name}_${index}`} {...obj} />
+                      ))}
+                  </div>
                 </div>
-              </div>
+              ))}
             </div>
           </div>
         </div>

@@ -14,7 +14,7 @@ export const fetchCategories = createAsyncThunk<TCategory[]>(
 
 
 const initialState: TCategoriesSlice = {
-  status: CategoryStatus.LOADING,
+  statusCategory: CategoryStatus.LOADING,
   categories: [],
 };
 
@@ -28,15 +28,15 @@ const categoriesSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(fetchCategories.pending, (state) => {
-      state.status = CategoryStatus.LOADING;
+      state.statusCategory = CategoryStatus.LOADING;
       state.categories = [];
     });
     builder.addCase(fetchCategories.fulfilled, (state, { payload }) => {
-      state.status = CategoryStatus.LOADING;
+      state.statusCategory = CategoryStatus.SUCCESS;
       state.categories = payload;
     });
     builder.addCase(fetchCategories.rejected, (state) => {
-      state.status = CategoryStatus.LOADING;
+      state.statusCategory = CategoryStatus.ERROR;
       state.categories = [];
     });
   },

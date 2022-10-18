@@ -1,10 +1,9 @@
 export type TCategory = {
-  id: number;
   name: string;
 };
 
 export interface TCategoriesSlice {
-  status: CategoryStatus;
+  statusCategory: CategoryStatus;
   categories: TCategory[];
 }
 

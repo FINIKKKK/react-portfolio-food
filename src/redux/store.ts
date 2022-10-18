@@ -6,8 +6,8 @@ import { useDispatch } from "react-redux";
 
 export const store = configureStore({
   reducer: {
-    products,
     categories,
+    products,
   },
 });
 
