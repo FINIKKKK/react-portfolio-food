@@ -13,8 +13,8 @@ export const fetchProducts = createAsyncThunk<TProduct[]>(
 );
 
 const initialState: TProductsSlice = {
-  statusProduct: ProductStatus.LOADING,
-  products: [],
+  status: ProductStatus.LOADING,
+  items: [],
 };
 
 const productsSlice = createSlice({
@@ -22,21 +22,21 @@ const productsSlice = createSlice({
   initialState,
   reducers: {
     setProducts(state, { payload }: PayloadAction<TProduct[]>) {
-      state.products = payload;
+      state.items = payload;
     },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchProducts.pending, (state) => {
-      state.statusProduct = ProductStatus.LOADING;
-      state.products = [];
+      state.status = ProductStatus.LOADING;
+      state.items = [];
     });
     builder.addCase(fetchProducts.fulfilled, (state, { payload }) => {
-      state.statusProduct = ProductStatus.SUCCESS;
-      state.products = payload;
+      state.status = ProductStatus.SUCCESS;
+      state.items = payload;
     });
     builder.addCase(fetchProducts.rejected, (state) => {
-      state.statusProduct = ProductStatus.ERROR;
-      state.products = [];
+      state.status = ProductStatus.ERROR;
+      state.items = [];
     });
   },
 });

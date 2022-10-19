@@ -3,8 +3,8 @@ export type TCategory = {
 };
 
 export interface TCategoriesSlice {
-  statusCategory: CategoryStatus;
-  categories: TCategory[];
+  status: CategoryStatus;
+  items: TCategory[];
 }
 
 export enum CategoryStatus {

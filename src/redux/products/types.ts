@@ -7,8 +7,8 @@ export type TProduct = {
 };
 
 export interface TProductsSlice {
-  statusProduct: ProductStatus;
-  products: TProduct[];
+  status: ProductStatus;
+  items: TProduct[];
 }
 
 export enum ProductStatus {

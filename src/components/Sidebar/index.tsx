@@ -13,7 +13,7 @@ export type TSidebar = {
 
 export const Sidebar: React.FC<TSidebar> = ({ refs }) => {
   const dispatch = useAppDispatch();
-  const { categories } = useSelector(categoriesSliceSelector);
+  const categories = useSelector(categoriesSliceSelector);
 
   React.useEffect(() => {
     const getCategories = () => {

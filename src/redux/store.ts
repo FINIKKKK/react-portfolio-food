@@ -1,13 +1,15 @@
 import { configureStore } from "@reduxjs/toolkit";
+import { useDispatch } from "react-redux";
 
 import products from "./products/slice";
 import categories from "./categories/slice";
-import { useDispatch } from "react-redux";
+import popup from "./popup/slice";
 
 export const store = configureStore({
   reducer: {
     categories,
     products,
+    popup,
   },
 });
 

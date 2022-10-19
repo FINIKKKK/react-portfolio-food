@@ -1,4 +1,6 @@
 import React from "react";
+import { useDispatch } from "react-redux";
+import {setParams, setPopup } from "../../redux/popup/slice";
 
 type ItemProps = {
   img: string;
@@ -17,10 +19,16 @@ export const Item: React.FC<ItemProps> = ({ img, name, text, price }) => {
     }
   }, []);
 
-  console.log(titleRef);
+  const dispatch = useDispatch();
+
+  const openPopup = () => {
+    dispatch(setPopup(true));
+    document.documentElement.className = "fixed";
+    dispatch(setParams({img, name, text}))
+  };
 
   return (
-    <div className="item">
+    <div onClick={() => openPopup()} className="item">
       <img src={img} alt={name} className="item__img shadow" />
       <div className="item__content">
         <h5

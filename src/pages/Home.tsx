@@ -2,12 +2,15 @@ import React from "react";
 import { useSelector } from "react-redux";
 
 import { Item, Sidebar } from "../components";
+import { ButtonUp } from "../components/ButtonUp";
 import { categoriesSliceSelector } from "../redux/categories/selectors";
 import { TCategory } from "../redux/categories/types";
 import { productsSliceSelector } from "../redux/products/selectors";
 import { fetchProducts } from "../redux/products/slice";
 import { TProduct } from "../redux/products/types";
 import { useAppDispatch } from "../redux/store";
+
+import { ItemPopup } from "../components/ItemPopup";
 
 export const Home: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -25,8 +28,8 @@ export const Home: React.FC = () => {
     getProducts();
   }, []);
 
-  const { products } = useSelector(productsSliceSelector);
-  const { categories } = useSelector(categoriesSliceSelector);
+  const products = useSelector(productsSliceSelector);
+  const categories = useSelector(categoriesSliceSelector);
 
   const refs = categories.reduce((acc: any, value, index: number) => {
     acc[index] = React.createRef<HTMLDivElement>();
@@ -63,11 +66,8 @@ export const Home: React.FC = () => {
         </div>
       </main>
 
-      <div className="btn-up">
-        <svg width="20" height="20">
-          <use xlinkHref="./img/icons/icons.svg#up" />
-        </svg>
-      </div>
+      <ButtonUp />
+      <ItemPopup />
     </>
   );
 };
