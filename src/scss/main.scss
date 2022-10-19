@@ -191,6 +191,7 @@
 .main {
   &__inner {
     display: flex;
+    align-items: start;
     justify-content: space-between;
   }
 }
@@ -199,7 +200,7 @@
 .sidebar {
   width: 20%;
   margin-right: 105px;
-  padding-top: 100px;
+  padding-top: 40px;
 
   .sidebar__list {
   }
@@ -242,7 +243,8 @@
   margin-bottom: 120px;
 
   .items__group {
-    margin-bottom: 100px;
+    padding-top: 20px;
+    margin-bottom: 80px;
   }
 
   .items__group-title {

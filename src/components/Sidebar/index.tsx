@@ -5,7 +5,13 @@ import { fetchCategories } from "../../redux/categories/slice";
 import { TCategory } from "../../redux/categories/types";
 import { useAppDispatch } from "../../redux/store";
 
-export const Sidebar: React.FC = () => {
+import Sticky from "react-stickynode";
+
+export type TSidebar = {
+  refs: any;
+};
+
+export const Sidebar: React.FC<TSidebar> = ({ refs }) => {
   const dispatch = useAppDispatch();
   const { categories } = useSelector(categoriesSliceSelector);
 
@@ -25,12 +31,17 @@ export const Sidebar: React.FC = () => {
 
   const [activeCategory, setActiveCategory] = React.useState(0);
 
-  const clickCategory = (index: number) => {
-    setActiveCategory(index);
+  const handleClickCategory = (id: number) => {
+    refs[id].current.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+
+    setActiveCategory(id);
   };
 
   return (
-    <aside className="sidebar">
+    <Sticky top={30} className="sidebar">
       <ul className="sidebar__list">
         {categories.map((obj: TCategory, index) => (
           <li
@@ -38,7 +49,7 @@ export const Sidebar: React.FC = () => {
             className={`sidebar__list-item + ${
               activeCategory === index ? "active" : ""
             }`}
-            onClick={() => clickCategory(index)}
+            onClick={() => handleClickCategory(index)}
           >
             <svg width="20" height="20">
               <use xlinkHref={`./icons.svg#category${index + 1}`} />
@@ -47,6 +58,6 @@ export const Sidebar: React.FC = () => {
           </li>
         ))}
       </ul>
-    </aside>
+    </Sticky>
   );
 };

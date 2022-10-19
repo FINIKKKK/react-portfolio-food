@@ -28,16 +28,26 @@ export const Home: React.FC = () => {
   const { products } = useSelector(productsSliceSelector);
   const { categories } = useSelector(categoriesSliceSelector);
 
+  const refs = categories.reduce((acc: any, value, index: number) => {
+    acc[index] = React.createRef<HTMLDivElement>();
+    return acc;
+  }, {});
+
   return (
     <>
       <main className="main">
         <div className="container">
           <div className="main__inner">
-            <Sidebar />
+            <Sidebar refs={refs} />
 
             <div className="items">
               {categories.map((obj: TCategory, index) => (
-                <div key={`${obj.name}_${index}`} className="items__group">
+                <div
+                  id={`group${index}`}
+                  ref={refs[index]}
+                  key={`${obj.name}_${index}`}
+                  className="items__group"
+                >
                   <h2 className="items__group-title">{obj.name}</h2>
                   <div className="items__group-grid">
                     {products
