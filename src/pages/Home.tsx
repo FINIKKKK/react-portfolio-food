@@ -48,7 +48,7 @@ export const Home: React.FC = () => {
                 <div
                   id={`group${index}`}
                   ref={refs[index]}
-                  key={`${obj.name}_${index}`}
+                  key={obj.id}
                   className="items__group"
                 >
                   <h2 className="items__group-title">{obj.name}</h2>

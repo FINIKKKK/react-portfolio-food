@@ -3,6 +3,7 @@ import { TParams, TPopupSlice } from "./types";
 
 const initialState: TPopupSlice = {
   visible: false,
+  mini: false,
   params: {
     img: "",
     name: "",
@@ -14,15 +15,18 @@ const popupSlice = createSlice({
   name: "popup",
   initialState,
   reducers: {
-    setPopup(state, { payload }: PayloadAction<boolean>) {
+    setPopupVisible(state, { payload }: PayloadAction<boolean>) {
       state.visible = payload;
     },
-    setParams(state, { payload }: PayloadAction<TParams>) {
+    setPopupMini(state, { payload }: PayloadAction<boolean>) {
+      state.mini = payload;
+    },
+    setPopupParams(state, { payload }: PayloadAction<TParams>) {
       state.params = payload;
     },
   },
 });
 
-export const { setPopup, setParams } = popupSlice.actions;
+export const { setPopupVisible, setPopupMini, setPopupParams } = popupSlice.actions;
 
 export default popupSlice.reducer;

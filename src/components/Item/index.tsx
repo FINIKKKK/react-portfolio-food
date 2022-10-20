@@ -1,15 +1,16 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import {setParams, setPopup } from "../../redux/popup/slice";
+import {setPopupMini, setPopupParams, setPopupVisible } from "../../redux/popup/slice";
 
 type ItemProps = {
   img: string;
   name: string;
   text: string;
   price: number;
+  category: number;
 };
 
-export const Item: React.FC<ItemProps> = ({ img, name, text, price }) => {
+export const Item: React.FC<ItemProps> = ({ img, name, text, price, category }) => {
   const [height, setHeight] = React.useState(0);
   const titleRef = React.useRef<HTMLHeadingElement>(null);
 
@@ -22,9 +23,13 @@ export const Item: React.FC<ItemProps> = ({ img, name, text, price }) => {
   const dispatch = useDispatch();
 
   const openPopup = () => {
-    dispatch(setPopup(true));
+    console.log(category);
+    if(category === 6 || category === 7) {
+      dispatch(setPopupMini(true))
+    }
+    dispatch(setPopupVisible(true));
     document.documentElement.className = "fixed";
-    dispatch(setParams({img, name, text}))
+    dispatch(setPopupParams({img, name, text}))
   };
 
   return (
