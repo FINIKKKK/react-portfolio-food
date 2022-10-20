@@ -110,6 +110,10 @@
   transition: 0.3s;
   cursor: pointer;
   position: relative;
+  border: 2px solid transparent;
+  &.active {
+    border: 2px solid rgba($main, 1);
+  }
 
   &:hover {
     transform: translateY(-5px);
@@ -458,6 +462,7 @@
     max-width: 30px;
     margin: 2px 5px 0;
     text-align: center;
+    pointer-events: none;
   }
 
   .cart__counter--plus {

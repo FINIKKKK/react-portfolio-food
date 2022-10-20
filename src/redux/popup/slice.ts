@@ -8,6 +8,7 @@ const initialState: TPopupSlice = {
     img: "",
     name: "",
     text: "",
+    price: 0,
   },
 };
 

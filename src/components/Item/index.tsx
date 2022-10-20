@@ -1,6 +1,10 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import {setPopupMini, setPopupParams, setPopupVisible } from "../../redux/popup/slice";
+import {
+  setPopupMini,
+  setPopupParams,
+  setPopupVisible,
+} from "../../redux/popup/slice";
 
 type ItemProps = {
   img: string;
@@ -10,7 +14,13 @@ type ItemProps = {
   category: number;
 };
 
-export const Item: React.FC<ItemProps> = ({ img, name, text, price, category }) => {
+export const Item: React.FC<ItemProps> = ({
+  img,
+  name,
+  text,
+  price,
+  category,
+}) => {
   const [height, setHeight] = React.useState(0);
   const titleRef = React.useRef<HTMLHeadingElement>(null);
 
@@ -24,12 +34,12 @@ export const Item: React.FC<ItemProps> = ({ img, name, text, price, category }) 
 
   const openPopup = () => {
     console.log(category);
-    if(category === 6 || category === 7) {
-      dispatch(setPopupMini(true))
+    if (category === 6 || category === 7) {
+      dispatch(setPopupMini(true));
     }
     dispatch(setPopupVisible(true));
     document.documentElement.className = "fixed";
-    dispatch(setPopupParams({img, name, text}))
+    dispatch(setPopupParams({ img, name, text, price }));
   };
 
   return (
@@ -46,7 +56,11 @@ export const Item: React.FC<ItemProps> = ({ img, name, text, price, category }) 
         <div className="item__price">{price} ₽</div>
         <div className="item__btn">
           <svg width="20" height="20">
-            <use xlinkHref="./icons.svg#plus" />
+            {true ? (
+              <use xlinkHref="./icons.svg#plus" />
+            ) : (
+              <use xlinkHref="./icons.svg#check" />
+            )}
           </svg>
         </div>
       </div>

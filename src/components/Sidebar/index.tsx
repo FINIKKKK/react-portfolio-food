@@ -52,7 +52,7 @@ export const Sidebar: React.FC<TSidebar> = ({ refs }) => {
             onClick={() => handleClickCategory(index)}
           >
             <svg width="20" height="20">
-              <use xlinkHref={`./icons.svg#category${index + 1}`} />
+              <use xlinkHref={`./icons.svg#category${obj.id}`} />
             </svg>
             <p>{obj.name}</p>
           </li>
