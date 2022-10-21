@@ -10,6 +10,7 @@ import {
 } from "../../redux/popup/selectors";
 import { setPopupMini, setPopupVisible } from "../../redux/popup/slice";
 import { ItemAddList } from "../ItemAddList";
+import { ItemCounter } from "../ItemCounter";
 
 import styles from "./ItemPopup.module.scss";
 
@@ -40,17 +41,6 @@ export const ItemPopup: React.FC<ItemPopupProps> = () => {
 
   let [count, setCount] = React.useState(1);
 
-  const onMinus = () => {
-    if (count !== 1) {
-      setCount(--count);
-    }
-  };
-  const onPlus = () => {
-    if (count !== 99) {
-      setCount(++count);
-    }
-  };
-
   const paramsCart = {
     id: params.id,
     img: params.img,
@@ -61,12 +51,14 @@ export const ItemPopup: React.FC<ItemPopupProps> = () => {
 
   const onAddItem = () => {
     dispatch(addCartItem(paramsCart));
+    dispatch(setPopupVisible(false))
+    document.documentElement.className = "";
   };
 
   if (!miniPopup) {
     return (
       <div
-        className={classNames(styles.popup, {
+        className={classNames(`${styles.popup} popup`, {
           [styles.active]: visible,
         })}
       >
@@ -90,23 +82,7 @@ export const ItemPopup: React.FC<ItemPopupProps> = () => {
                 <h2 className={styles.item__title}>{params.name}</h2>
                 <p className={styles.item__text}>{params.text}</p>
                 <div className={styles.item__info}>
-                  <div className={`cart__item-counter ${styles.counter}`}>
-                    <button onClick={onMinus} className={`counter__btn minus`}>
-                      -
-                    </button>
-                    <input
-                      readOnly
-                      type="text"
-                      className={`number ${styles.number}`}
-                      value={count}
-                    />
-                    <button
-                      onClick={() => onPlus()}
-                      className={`counter__btn plus`}
-                    >
-                      +
-                    </button>
-                  </div>
+                  <ItemCounter count={count}/>
                 </div>
               </div>
             </div>
@@ -171,22 +147,7 @@ export const ItemPopup: React.FC<ItemPopupProps> = () => {
                   <div className={styles.item__price}>
                     <b>360 ₽</b>
                   </div>
-                  <div className={`cart__item-counter ${styles.counter}`}>
-                    <button onClick={onMinus} className={`counter__btn minus`}>
-                      -
-                    </button>
-                    <input
-                      type="text"
-                      className={`number ${styles.number}`}
-                      value={count}
-                    />
-                    <button
-                      onClick={() => onPlus()}
-                      className={`counter__btn plus`}
-                    >
-                      +
-                    </button>
-                  </div>
+                  <ItemCounter count={count} />
                 </div>
                 <div className={`${styles.item__btn} item__popup-btn btn`}>
                   <div className={styles.added}>Добавлено</div>

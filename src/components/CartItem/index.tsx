@@ -1,4 +1,5 @@
 import React from "react";
+import { ItemCounter } from "../ItemCounter";
 
 import styles from "./CartItem.module.scss";
 
@@ -23,15 +24,8 @@ export const CartItem: React.FC<CartItemProps> = ({
       <td className={styles.title}>
         <h5>{name}</h5>
       </td>
-      <td className="cart__item-counter">
-        <button className="cart__counter-btn cart__counter--minus">-</button>
-        <input
-          readOnly
-          type="text"
-          className="cart__counter-number"
-          value={count}
-        />
-        <button className="cart__counter-btn cart__counter--plus">+</button>
+      <td>
+        <ItemCounter count={count} />
       </td>
       <td className={styles.price}>{price} ₽</td>
       <td className={styles.deleteBtn}>

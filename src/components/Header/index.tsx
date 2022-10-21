@@ -5,8 +5,12 @@ import logoMini from "../../assets/img/logo--mini.png";
 
 import styles from "./Header.module.scss";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { cartSliceSelector } from "../../redux/cart/selectors";
 
 export const Header: React.FC = () => {
+  const { totalCount } = useSelector(cartSliceSelector);
+
   return (
     <header className={styles.header}>
       <div className="container">
@@ -28,7 +32,7 @@ export const Header: React.FC = () => {
               <svg width="20" height="20">
                 <use xlinkHref="./icons.svg#cart" />
               </svg>
-              <span>99</span>
+              {totalCount > 0 && <span>{totalCount}</span>}
             </Link>
           </div>
         </div>

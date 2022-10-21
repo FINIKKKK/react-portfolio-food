@@ -8,4 +8,6 @@ export type TCartItem = {
 
 export interface TCartSlice {
   items: TCartItem[];
+  totalCount: number;
+  totalPrice: number;
 };

@@ -1,12 +1,23 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { CartEmpty, CartItem } from "../components";
-import { cartItemsSliceSelector } from "../redux/cart/selectors";
+import {
+  cartItemsSliceSelector,
+  cartSliceSelector,
+} from "../redux/cart/selectors";
+import { clearCart } from "../redux/cart/slice";
 import { TCartItem } from "../redux/cart/types";
 
 export const Cart: React.FC = () => {
   const items = useSelector(cartItemsSliceSelector);
+
+  const { totalCount, totalPrice } = useSelector(cartSliceSelector);
+  const dispatch = useDispatch();
+
+  const onClearCart = () => {
+    dispatch(clearCart());
+  };
 
   return (
     <section className="cart">
@@ -23,18 +34,18 @@ export const Cart: React.FC = () => {
               <div className="cart--left">
                 <ul className="cart__total">
                   <li className="cart__total-li">
-                    <p>Количество продуктов:</p>
-                    <b> 3</b>
+                    <p>Количество продуктов: </p>
+                    <b>{totalCount}</b>
                   </li>
                   <li className="cart__total-li">
-                    <p>Сумма заказа:</p>
-                    <b> 450₽</b>
+                    <p>Сумма заказа: </p>
+                    <b>{totalPrice}₽</b>
                   </li>
                 </ul>
                 <button className="cart__total-btn btn">Оплатить</button>
               </div>
               <div className="cart--right">
-                <div className="cart__clear">
+                <div onClick={onClearCart} className="cart__clear">
                   <svg width="20" height="20">
                     <use xlinkHref="./icons.svg#cart" />
                   </svg>

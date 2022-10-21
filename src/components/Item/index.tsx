@@ -1,5 +1,6 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { cartItemsSliceSelector } from "../../redux/cart/selectors";
 import {
   setPopupMini,
   setPopupParams,
@@ -26,7 +27,10 @@ export const Item: React.FC<ItemProps> = ({
   category,
 }) => {
   const [height, setHeight] = React.useState(0);
+  const [isActive, setIsActive] = React.useState(false);
+
   const titleRef = React.useRef<HTMLHeadingElement>(null);
+  const cartItems = useSelector(cartItemsSliceSelector);
 
   React.useEffect(() => {
     if (titleRef.current !== undefined && titleRef.current !== null) {
@@ -45,8 +49,18 @@ export const Item: React.FC<ItemProps> = ({
     dispatch(setPopupParams({ id, img, name, text, price }));
   };
 
+  React.useEffect(() => {
+    const findActiveItem = cartItems.find((obj) => obj.id === id)
+    if (findActiveItem) {
+      setIsActive(true);
+    }
+  }, [cartItems]);
+
   return (
-    <div onClick={() => openPopup()} className={`${styles.item} item`}>
+    <div
+      onClick={() => openPopup()}
+      className={`${styles.item} item ${isActive ? styles.active : ""}`}
+    >
       <img src={img} alt={name} className={`${styles.item__img} shadow`} />
       <div className={styles.item__content}>
         <h5
@@ -61,7 +75,7 @@ export const Item: React.FC<ItemProps> = ({
         <div className={styles.item__price}>{price} ₽</div>
         <div className={styles.item__btn}>
           <svg width="20" height="20">
-            {true ? (
+            {!isActive ? (
               <use xlinkHref="./icons.svg#plus" />
             ) : (
               <use xlinkHref="./icons.svg#check" />

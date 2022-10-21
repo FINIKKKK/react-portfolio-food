@@ -1,0 +1,29 @@
+@import '../../scss/assets/variables';
+
+.counter {
+  font-size: 18px;
+  line-height: 29px;
+  padding: 0px 5px;
+  border: 1px solid #000;
+  border-radius: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  .counter__btn {
+    padding: 6px 8px;
+    transition: 0.2s;
+    &:hover {
+      font-weight: 700;
+    }
+  }
+  .minus {
+  }
+  .number {
+    max-width: 30px;
+    margin: 2px 5px 0;
+    text-align: center;
+    pointer-events: none;
+  }
+  .plus {
+  }
+}

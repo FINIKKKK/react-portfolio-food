@@ -7,3 +7,4 @@ export * from "./ItemAddList/ItemAddElement";
 export * from "./ButtonUp";
 export * from "./CartItem";
 export * from "./CartEmpty";
+export * from "./ItemCounter";
