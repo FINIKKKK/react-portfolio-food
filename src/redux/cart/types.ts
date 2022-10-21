@@ -7,5 +7,5 @@ export type TCartItem = {
 };
 
 export interface TCartSlice {
-  items: [];
+  items: TCartItem[];
 };

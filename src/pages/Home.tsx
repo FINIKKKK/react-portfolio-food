@@ -56,7 +56,7 @@ export const Home: React.FC = () => {
                     {products
                       .filter((obj: TProduct) => obj.category === index + 1)
                       .map((obj: TProduct, index) => (
-                        <Item key={`${obj.name}_${index}`} {...obj} />
+                        <Item key={obj.id} {...obj} />
                       ))}
                   </div>
                 </div>

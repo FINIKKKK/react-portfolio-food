@@ -5,6 +5,7 @@ const initialState: TPopupSlice = {
   visible: false,
   mini: false,
   params: {
+    id: 0,
     img: "",
     name: "",
     text: "",

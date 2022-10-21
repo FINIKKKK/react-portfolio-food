@@ -1,6 +1,8 @@
 import classNames from "classnames";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { addCartItem } from "../../redux/cart/slice";
+import { TCartItem } from "../../redux/cart/types";
 import {
   miniPopupSliceSelector,
   paramsSliceSelector,
@@ -49,6 +51,18 @@ export const ItemPopup: React.FC<ItemPopupProps> = () => {
     }
   };
 
+  const paramsCart = {
+    id: params.id,
+    img: params.img,
+    name: params.name,
+    count,
+    price: params.price,
+  };
+
+  const onAddItem = () => {
+    dispatch(addCartItem(paramsCart));
+  };
+
   if (!miniPopup) {
     return (
       <div
@@ -81,6 +95,7 @@ export const ItemPopup: React.FC<ItemPopupProps> = () => {
                       -
                     </button>
                     <input
+                      readOnly
                       type="text"
                       className={`number ${styles.number}`}
                       value={count}
@@ -109,7 +124,10 @@ export const ItemPopup: React.FC<ItemPopupProps> = () => {
               <div className={styles.item__price}>
                 Общая сумма: <b>{params.price} ₽</b>
               </div>
-              <div className={`${styles.item__btn} item__popup-btn btn`}>
+              <div
+                onClick={onAddItem}
+                className={`${styles.item__btn} item__popup-btn btn`}
+              >
                 <div className={styles.added}>Добавлено</div>
                 <div className={styles.content}>
                   <p>Добавить в корзину</p>

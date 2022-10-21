@@ -1,0 +1,36 @@
+@import '../../scss/assets/variables';
+
+// --------- empty ----------
+.empty {
+  text-align: center;
+  padding-top: 40px;
+  margin-bottom: 140px;
+  .empty__img {
+    width: 320px;
+    height: 320px;
+    object-fit: cover;
+    margin-bottom: 55px;
+  }
+
+  .empty__title {
+    font-weight: 700;
+    font-size: 22px;
+    line-height: 32px;
+    margin-bottom: 15px;
+  }
+
+  .empty__text {
+    font-size: 16px;
+    line-height: 20px;
+    color: rgba(0, 0, 0, 0.58);
+    margin: 0 auto;
+    margin-bottom: 25px;
+  }
+
+  .empty__btn {
+    font-size: 14px;
+    line-height: 16px;
+    display: inline-block;
+    padding: 10px 50px;
+  }
+}

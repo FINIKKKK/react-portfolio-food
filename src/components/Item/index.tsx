@@ -6,9 +6,10 @@ import {
   setPopupVisible,
 } from "../../redux/popup/slice";
 
-import styles from './Item.module.scss'
+import styles from "./Item.module.scss";
 
 type ItemProps = {
+  id: number;
   img: string;
   name: string;
   text: string;
@@ -17,6 +18,7 @@ type ItemProps = {
 };
 
 export const Item: React.FC<ItemProps> = ({
+  id,
   img,
   name,
   text,
@@ -35,22 +37,23 @@ export const Item: React.FC<ItemProps> = ({
   const dispatch = useDispatch();
 
   const openPopup = () => {
-    console.log(category);
     if (category === 6 || category === 7) {
       dispatch(setPopupMini(true));
     }
     dispatch(setPopupVisible(true));
     document.documentElement.className = "fixed";
-    dispatch(setPopupParams({ img, name, text, price }));
+    dispatch(setPopupParams({ id, img, name, text, price }));
   };
 
   return (
     <div onClick={() => openPopup()} className={`${styles.item} item`}>
-      <img src={img} alt={name} className={`${styles.item__img} shadow`}/>
+      <img src={img} alt={name} className={`${styles.item__img} shadow`} />
       <div className={styles.item__content}>
         <h5
           ref={titleRef}
-          className={`${styles.item__title} ${height && height > 40 ? styles.mini : ""}`}
+          className={`${styles.item__title} ${
+            height && height > 40 ? styles.mini : ""
+          }`}
         >
           {name}
         </h5>

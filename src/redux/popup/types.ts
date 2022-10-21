@@ -1,4 +1,5 @@
 export type TParams = {
+  id: number;
   img: string;
   name: string;
   text: string;
