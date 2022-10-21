@@ -1,0 +1,100 @@
+@import '../../scss/assets/variables';
+
+// --------- footer ----------
+.footer {
+  &__copy {
+    padding: 13px 0;
+    background-color: $main;
+    text-align: center;
+    font-size: 14px;
+    line-height: 18px;
+    b {
+      font-weight: 700;
+    }
+  }
+  .footer__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 34px 0;
+    position: relative;
+  }
+  .line {
+    position: absolute;
+    width: 85%;
+    height: 1px;
+    background-color: rgba(0, 0, 0, 0.1);
+    left: 50%;
+    top: 0;
+    transform: translateX(-50%);
+  }
+  .footer__logo {
+    width: 260px;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+  .footer__text {
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 26px;
+    text-align: right;
+    width: 210px;
+  }
+  .footer__phones {
+    text-align: right;
+    font-size: 16px;
+    line-height: 26px;
+    padding-left: 27px;
+    // font-weight: 700;
+    position: relative;
+    max-width: 165px;
+    a {
+      white-space: nowrap;
+      display: inline-block;
+      color: $main;
+      transition: 0.2s;
+      &:hover {
+        color: #000;
+      }
+    }
+    .icon {
+      position: absolute;
+      left: 0;
+      top: 0px;
+      fill: $main;
+      width: 17px;
+      height: 17px;
+    }
+  }
+  .footer__schedule {
+    font-size: 16px;
+    line-height: 26px;
+    text-align: right;
+    p:not(:last-child) {
+      margin-bottom: 7px;
+    }
+  }
+  .soclist {
+    display: flex;
+    align-items: center;
+  }
+  .soclist__item {
+    &:hover {
+      svg {
+        fill: #000;
+      }
+    }
+    svg {
+      transition: 0.2s;
+      width: 20px;
+      height: 20px;
+      fill: $main;
+    }
+    &:not(:last-child) {
+      margin-right: 20px;
+    }
+  }
+}

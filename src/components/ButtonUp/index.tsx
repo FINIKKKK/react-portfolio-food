@@ -26,7 +26,7 @@ export const ButtonUp: React.FC<ButtonUpProps> = () => {
   window.addEventListener("scroll", toggleVisible);
 
   return (
-    <div onClick={scrollToTop} className={`btn-up ${visible ? "show" : ""}`}>
+    <div onClick={scrollToTop} className={`${styles.btn} ${visible ? styles.show : ""}`}>
       <svg width="20" height="20">
         <use xlinkHref="./icons.svg#up" />
       </svg>

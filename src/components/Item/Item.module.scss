@@ -1,0 +1,94 @@
+@import '../../scss/assets/variables';
+
+// --------- item ----------
+.item {
+  background-color: #e7e8e6;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.11);
+  border-radius: 24px;
+  display: inline-block;
+  width: 218px;
+  height: 281px;
+  transition: 0.3s;
+  cursor: pointer;
+  position: relative;
+  border: 2px solid transparent;
+  &.active {
+    border: 2px solid rgba($main, 1);
+  }
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.31);
+  }
+
+  .item__content {
+    padding: 0 17px;
+  }
+
+  .item__img {
+    width: 100%;
+    height: 175px;
+    object-fit: cover;
+    margin-top: -80px;
+    transition: 0.3s;
+  }
+
+  .item__title {
+    font-weight: 700;
+    font-size: 19px;
+    line-height: 30px;
+    text-transform: capitalize;
+    margin-top: 0px;
+    margin-bottom: 11px;
+    &.mini {
+      font-size: 14px;
+      line-height: 22px;
+      margin-bottom: 5px;
+    }
+  }
+
+  .item__text {
+    font-size: 14px;
+    line-height: 22px;
+    color: rgba(0, 0, 0, 0.7);
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow-y: hidden;
+  }
+
+  .item__price {
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 29px;
+    position: absolute;
+    left: 17px;
+    bottom: 10px;
+  }
+
+  .item__btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: $main;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    transition: 0.2s;
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    box-shadow: 0px 0px 6px rgba(207, 189, 177, 0.64);
+    &:hover {
+      svg {
+        transform: rotate(180deg);
+      }
+    }
+    svg {
+      transition: 0.2s;
+      fill: #000000;
+      width: 14px;
+      height: 14px;
+    }
+  }
+}

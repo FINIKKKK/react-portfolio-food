@@ -52,45 +52,42 @@ export const ItemPopup: React.FC<ItemPopupProps> = () => {
   if (!miniPopup) {
     return (
       <div
-        className={classNames("item-popup", {
-          active: visible,
+        className={classNames(styles.popup, {
+          [styles.active]: visible,
         })}
       >
-        <div className="popup">
+        <div className={styles.box}>
           <svg
             onClick={() => closePopup()}
             width="20"
             height="20"
-            className="item__close"
+            className={styles.item__close}
           >
             <use xlinkHref="./icons.svg#close" />
           </svg>
-          <div className="popup__box">
-            <div className="popup--left">
+          <div className={styles.popup__box}>
+            <div className={styles.leftSide}>
               <img
                 src={params.img}
                 alt={params.name}
-                className="item__img shadow"
+                className={`${styles.item__img} shadow`}
               />
-              <div className="popup__content">
-                <h2 className="item__title">{params.name}</h2>
-                <p className="item__text">{params.text}</p>
-                <div className="item__info">
-                  <div className="item__counter cart__item-counter">
-                    <button
-                      onClick={onMinus}
-                      className="cart__counter-btn cart__counter--minus"
-                    >
+              <div className={styles.popup__content}>
+                <h2 className={styles.item__title}>{params.name}</h2>
+                <p className={styles.item__text}>{params.text}</p>
+                <div className={styles.item__info}>
+                  <div className={`cart__item-counter ${styles.counter}`}>
+                    <button onClick={onMinus} className={`counter__btn minus`}>
                       -
                     </button>
                     <input
                       type="text"
-                      className="cart__counter-number"
+                      className={`number ${styles.number}`}
                       value={count}
                     />
                     <button
                       onClick={() => onPlus()}
-                      className="cart__counter-btn cart__counter--plus"
+                      className={`counter__btn plus`}
                     >
                       +
                     </button>
@@ -98,7 +95,7 @@ export const ItemPopup: React.FC<ItemPopupProps> = () => {
                 </div>
               </div>
             </div>
-            <div className="popup--right">
+            <div className={styles.rightSide}>
               <ItemAddList
                 title="Добавить соус"
                 categoryId={6}
@@ -109,12 +106,12 @@ export const ItemPopup: React.FC<ItemPopupProps> = () => {
                 categoryId={7}
                 refLink={refAddList2}
               />
-              <div className="item__price">
+              <div className={styles.item__price}>
                 Общая сумма: <b>{params.price} ₽</b>
               </div>
-              <div className="item__btn item__popup-btn btn">
-                <div className="added">Добавлено</div>
-                <div className="content">
+              <div className={`${styles.item__btn} item__popup-btn btn`}>
+                <div className={styles.added}>Добавлено</div>
+                <div className={styles.content}>
                   <p>Добавить в корзину</p>
                   <svg width="20" height="20">
                     <use xlinkHref="./icons.svg#cart" />
@@ -129,53 +126,56 @@ export const ItemPopup: React.FC<ItemPopupProps> = () => {
   } else {
     return (
       <div
-        className={classNames("item-popup mini", {
-          active: visible,
+        className={classNames(`${styles.popup} ${styles.mini}`, {
+          [styles.active]: visible,
         })}
       >
-        <div className="popup">
+        <div className={styles.box}>
           <svg
             onClick={() => closePopup()}
             width="20"
             height="20"
-            className="item__close"
+            className={styles.item__close}
           >
             <use xlinkHref="./icons.svg#close" />
           </svg>
-          <div className="popup__box">
-            <div className="popup--left">
+          <div className={styles.popup__box}>
+            <div className={styles.leftSide}>
               <img
                 src={params.img}
                 alt={params.name}
-                className="item__img shadow"
+                className={`${styles.item__img} shadow`}
               />
-              <div className="popup__content">
-                <h2 className="item__title">{params.name}</h2>
-                <p className="item__text">{params.text}</p>
-                <div className="item__flex">
-                  <div className="item__price">
+              <div className={styles.popup__content}>
+                <h2 className={styles.item__title}>{params.name}</h2>
+                <p className={styles.item__text}>{params.text}</p>
+                <div className={styles.item__flex}>
+                  <div className={styles.item__price}>
                     <b>360 ₽</b>
                   </div>
-                  <div className="item__counter cart__item-counter">
-                    <button className="cart__counter-btn cart__counter--minus">
+                  <div className={`cart__item-counter ${styles.counter}`}>
+                    <button onClick={onMinus} className={`counter__btn minus`}>
                       -
                     </button>
                     <input
                       type="text"
-                      className="cart__counter-number"
-                      value="1"
+                      className={`number ${styles.number}`}
+                      value={count}
                     />
-                    <button className="cart__counter-btn cart__counter--plus">
+                    <button
+                      onClick={() => onPlus()}
+                      className={`counter__btn plus`}
+                    >
                       +
                     </button>
                   </div>
                 </div>
-                <div className="item__btn item__popup-btn btn">
-                  <div className="added">Добавлено</div>
-                  <div className="content">
+                <div className={`${styles.item__btn} item__popup-btn btn`}>
+                  <div className={styles.added}>Добавлено</div>
+                  <div className={styles.content}>
                     <p>Добавить в корзину</p>
                     <svg width="20" height="20">
-                      <use xlinkHref="./img/icons/icons.svg#cart" />
+                      <use xlinkHref="./icons.svg#cart" />
                     </svg>
                   </div>
                 </div>

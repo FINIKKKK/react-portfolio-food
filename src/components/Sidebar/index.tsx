@@ -7,6 +7,8 @@ import { useAppDispatch } from "../../redux/store";
 
 import Sticky from "react-stickynode";
 
+import styles from "./Sidebar.module.scss";
+
 export type TSidebar = {
   refs: any;
 };
@@ -41,14 +43,15 @@ export const Sidebar: React.FC<TSidebar> = ({ refs }) => {
   };
 
   return (
-    <Sticky top={30} className="sidebar">
-      <ul className="sidebar__list">
+    <Sticky top={30} className={styles.sidebar}>
+      <ul className={styles.sidebar__list}>
         {categories.map((obj: TCategory, index) => (
           <li
             key={`${obj.name}_${index}`}
-            className={`sidebar__list-item + ${
-              activeCategory === index ? "active" : ""
-            }`}
+            className={`
+              ${styles.item} 
+              ${activeCategory === index ? styles.active : ""}
+            `}
             onClick={() => handleClickCategory(index)}
           >
             <svg width="20" height="20">

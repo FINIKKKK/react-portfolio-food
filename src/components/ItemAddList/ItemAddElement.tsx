@@ -18,14 +18,14 @@ export const ItemAddElement: React.FC<ItemAddElementProps> = ({
   return (
     <div
       onClick={() => setActive(!active)}
-      className={`item__add-element ${active ? "active" : ""}`}
+      className={`${styles.element} ${active ? styles.active : ""}`}
     >
-      <img src={img} alt={name} className="img" />
-      <div className="info">
+      <img src={img} alt={name} className={styles.img} />
+      <div className={styles.info}>
         <h5>{name}</h5>
-        <div className="price">{price}₽</div>
+        <div className={styles.price}>{price}₽</div>
       </div>
-      <svg className="check" width="20" height="20">
+      <svg className={styles.check} width="20" height="20">
         <use xlinkHref="./icons.svg#check" />
       </svg>
     </div>

@@ -1,10 +1,10 @@
 // --------- Fonts ----------
-@import './_fonts.scss';
+@import './assets/fonts';
 
 // --------- Main ----------
-@import './_reset.scss';
-@import './variables';
-@import './_global.scss';
+@import './assets/reset';
+@import './assets/variables';
+@import './assets/global';
 @import './main.scss';
 
 // --------- Plugins ----------

@@ -6,6 +6,8 @@ import {
   setPopupVisible,
 } from "../../redux/popup/slice";
 
+import styles from './Item.module.scss'
+
 type ItemProps = {
   img: string;
   name: string;
@@ -43,18 +45,18 @@ export const Item: React.FC<ItemProps> = ({
   };
 
   return (
-    <div onClick={() => openPopup()} className="item">
-      <img src={img} alt={name} className="item__img shadow" />
-      <div className="item__content">
+    <div onClick={() => openPopup()} className={`${styles.item} item`}>
+      <img src={img} alt={name} className={`${styles.item__img} shadow`}/>
+      <div className={styles.item__content}>
         <h5
           ref={titleRef}
-          className={`item__title + ${height && height > 40 ? "mini" : ""}`}
+          className={`${styles.item__title} ${height && height > 40 ? styles.mini : ""}`}
         >
           {name}
         </h5>
-        <p className="item__text">{text}</p>
-        <div className="item__price">{price} ₽</div>
-        <div className="item__btn">
+        <p className={styles.item__text}>{text}</p>
+        <div className={styles.item__price}>{price} ₽</div>
+        <div className={styles.item__btn}>
           <svg width="20" height="20">
             {true ? (
               <use xlinkHref="./icons.svg#plus" />

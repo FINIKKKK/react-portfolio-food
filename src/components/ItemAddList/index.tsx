@@ -20,9 +20,9 @@ export const ItemAddList: React.FC<ItemAddListProps> = ({
   const products = useSelector(productsSliceSelector);
 
   return (
-    <div className="item__add">
-      <h5 className="item__add-title">{title}:</h5>
-      <div ref={refLink} className="item__add-list" >
+    <div className={styles.item__add}>
+      <h5 className={styles.add__title}>{title}:</h5>
+      <div ref={refLink} className={styles.add__list} >
         {products
           .filter((obj: TProduct) => obj.category === categoryId)
           .map((obj: TProduct, index) => (
