@@ -1,14 +1,20 @@
 import classNames from "classnames";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { cartItemsSliceSelector } from "../../redux/cart/selectors";
 import { addCartItem } from "../../redux/cart/slice";
 import { TCartItem } from "../../redux/cart/types";
 import {
+  countItemSliceSelector,
   miniPopupSliceSelector,
   paramsSliceSelector,
   visibleSliceSelector,
 } from "../../redux/popup/selectors";
-import { setPopupMini, setPopupVisible } from "../../redux/popup/slice";
+import {
+  setDefaultCount,
+  setPopupMini,
+  setPopupVisible,
+} from "../../redux/popup/slice";
 import { ItemAddList } from "../ItemAddList";
 import { ItemCounter } from "../ItemCounter";
 
@@ -26,6 +32,7 @@ export const ItemPopup: React.FC<ItemPopupProps> = () => {
   const closePopup = () => {
     dispatch(setPopupVisible(false));
     dispatch(setPopupMini(false));
+    dispatch(setDefaultCount());
     document.documentElement.className = "";
 
     if (refAddList1.current !== null) {
@@ -38,8 +45,13 @@ export const ItemPopup: React.FC<ItemPopupProps> = () => {
 
   const params = useSelector(paramsSliceSelector);
   const miniPopup = useSelector(miniPopupSliceSelector);
+  const count = useSelector(countItemSliceSelector);
+  const cartItems = useSelector(cartItemsSliceSelector);
 
-  let [count, setCount] = React.useState(1);
+  const findItem = cartItems.find((obj) => obj.id === params.id);
+  const price = !findItem
+    ? params.price * count
+    : params.price * findItem.count;
 
   const paramsCart = {
     id: params.id,
@@ -51,7 +63,8 @@ export const ItemPopup: React.FC<ItemPopupProps> = () => {
 
   const onAddItem = () => {
     dispatch(addCartItem(paramsCart));
-    dispatch(setPopupVisible(false))
+    dispatch(setPopupVisible(false));
+    dispatch(setDefaultCount());
     document.documentElement.className = "";
   };
 
@@ -82,7 +95,7 @@ export const ItemPopup: React.FC<ItemPopupProps> = () => {
                 <h2 className={styles.item__title}>{params.name}</h2>
                 <p className={styles.item__text}>{params.text}</p>
                 <div className={styles.item__info}>
-                  <ItemCounter count={count}/>
+                  <ItemCounter id={params.id} />
                 </div>
               </div>
             </div>
@@ -98,7 +111,7 @@ export const ItemPopup: React.FC<ItemPopupProps> = () => {
                 refLink={refAddList2}
               />
               <div className={styles.item__price}>
-                Общая сумма: <b>{params.price} ₽</b>
+                Общая сумма: <b>{price} ₽</b>
               </div>
               <div
                 onClick={onAddItem}
@@ -147,7 +160,7 @@ export const ItemPopup: React.FC<ItemPopupProps> = () => {
                   <div className={styles.item__price}>
                     <b>360 ₽</b>
                   </div>
-                  <ItemCounter count={count} />
+                  {/* <ItemCounter count={count} /> */}
                 </div>
                 <div className={`${styles.item__btn} item__popup-btn btn`}>
                   <div className={styles.added}>Добавлено</div>

@@ -11,6 +11,7 @@ const initialState: TPopupSlice = {
     text: "",
     price: 0,
   },
+  itemCount: 1,
 };
 
 const popupSlice = createSlice({
@@ -26,9 +27,29 @@ const popupSlice = createSlice({
     setPopupParams(state, { payload }: PayloadAction<TParams>) {
       state.params = payload;
     },
+    plusCountItem(state) {
+      if (state.itemCount !== 99) {
+        state.itemCount++;
+      }
+    },
+    minusCountItem(state) {
+      if (state.itemCount !== 1) {
+        state.itemCount--;
+      }
+    },
+    setDefaultCount(state) {
+      state.itemCount = 1;
+    },
   },
 });
 
-export const { setPopupVisible, setPopupMini, setPopupParams } = popupSlice.actions;
+export const {
+  setPopupVisible,
+  setPopupMini,
+  setPopupParams,
+  plusCountItem,
+  minusCountItem,
+  setDefaultCount,
+} = popupSlice.actions;
 
 export default popupSlice.reducer;

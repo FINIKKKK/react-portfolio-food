@@ -10,4 +10,5 @@ export interface TPopupSlice {
   visible: boolean;
   mini: boolean;
   params: TParams;
+  itemCount: number;
 }

@@ -1,9 +1,12 @@
 import React from "react";
+import { useDispatch } from "react-redux";
+import { removeCartItem } from "../../redux/cart/slice";
 import { ItemCounter } from "../ItemCounter";
 
 import styles from "./CartItem.module.scss";
 
 type CartItemProps = {
+  id: number;
   img: string;
   name: string;
   count: number;
@@ -11,11 +14,18 @@ type CartItemProps = {
 };
 
 export const CartItem: React.FC<CartItemProps> = ({
+  id,
   img,
   name,
   count,
   price,
 }) => {
+  const dispatch = useDispatch();
+
+  const onRemoveItem = () => {
+    dispatch(removeCartItem(id));
+  };
+
   return (
     <tr className={styles.cart__item}>
       <td className={styles.img}>
@@ -25,11 +35,11 @@ export const CartItem: React.FC<CartItemProps> = ({
         <h5>{name}</h5>
       </td>
       <td>
-        <ItemCounter count={count} />
+        <ItemCounter id={id}/>
       </td>
       <td className={styles.price}>{price} ₽</td>
       <td className={styles.deleteBtn}>
-        <button>
+        <button onClick={onRemoveItem}>
           <svg width="20" height="20">
             <use xlinkHref="./icons.svg#close" />
           </svg>
