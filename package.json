@@ -21,6 +21,7 @@
     "disable-scroll": "^0.6.0",
     "node-sass": "^7.0.3",
     "react": "^18.2.0",
+    "react-content-loader": "^6.2.0",
     "react-dom": "^18.2.0",
     "react-fixed-sidebar": "^1.1.3",
     "react-infinite-scroller": "^1.2.6",

@@ -8,3 +8,4 @@ export * from "./ButtonUp";
 export * from "./CartItem";
 export * from "./CartEmpty";
 export * from "./ItemCounter";
+export * from "./LoadingElement/LoadingElement";

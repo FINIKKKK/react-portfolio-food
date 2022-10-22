@@ -1,11 +1,14 @@
 import React from "react";
 import { useSelector } from "react-redux";
 
-import { Item, Sidebar } from "../components";
+import { Item, LoadingElement, Sidebar } from "../components";
 import { ButtonUp } from "../components/ButtonUp";
 import { categoriesSliceSelector } from "../redux/categories/selectors";
 import { TCategory } from "../redux/categories/types";
-import { productsSliceSelector } from "../redux/products/selectors";
+import {
+  productsSliceSelector,
+  statusSliceSelector,
+} from "../redux/products/selectors";
 import { fetchProducts } from "../redux/products/slice";
 import { TProduct } from "../redux/products/types";
 import { useAppDispatch } from "../redux/store";
@@ -19,6 +22,7 @@ export const Home: React.FC = () => {
     const getProducts = () => {
       try {
         dispatch(fetchProducts());
+        window.scrollTo(0, 0);
       } catch (error) {
         alert("Ошибка!");
         console.log("Ошибка при получении ");
@@ -36,6 +40,8 @@ export const Home: React.FC = () => {
     return acc;
   }, {});
 
+  const status = useSelector(statusSliceSelector);
+
   return (
     <>
       <main className="main">
@@ -44,23 +50,38 @@ export const Home: React.FC = () => {
             <Sidebar refs={refs} />
 
             <div className="items">
-              {categories.map((obj: TCategory, index) => (
-                <div
-                  id={`group${index}`}
-                  ref={refs[index]}
-                  key={obj.id}
-                  className="items__group"
-                >
-                  <h2 className="items__group-title">{obj.name}</h2>
-                  <div className="items__group-grid">
-                    {products
-                      .filter((obj: TProduct) => obj.category === index + 1)
-                      .map((obj: TProduct, index) => (
-                        <Item key={obj.id} {...obj} />
-                      ))}
-                  </div>
-                </div>
-              ))}
+              {status === "loading"
+                ? Array(2)
+                    .fill(0)
+                    .map((_, index) => (
+                      <div key={index} className="items__group">
+                        <LoadingElement nameClass={"title"} key={index} />
+                        <div className="items__group-grid">
+                          {Array(8)
+                            .fill(0)
+                            .map((_, index) => (
+                              <LoadingElement nameClass={"item"} key={index} />
+                            ))}
+                        </div>
+                      </div>
+                    ))
+                : categories.map((obj: TCategory, index) => (
+                    <div
+                      id={`group${index}`}
+                      ref={refs[index]}
+                      key={obj.id}
+                      className="items__group"
+                    >
+                      <h2 className="items__group-title">{obj.name}</h2>
+                      <div className="items__group-grid">
+                        {products
+                          .filter((obj: TProduct) => obj.category === index + 1)
+                          .map((obj: TProduct, index) => (
+                            <Item key={obj.id} {...obj} />
+                          ))}
+                      </div>
+                    </div>
+                  ))}
             </div>
           </div>
         </div>
