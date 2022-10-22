@@ -1,6 +1,5 @@
 @import '../../scss/assets/variables';
 
-
 // --------- sidebar ----------
 .sidebar {
   width: 20%;
@@ -40,5 +39,99 @@
   .active {
     background-color: $main;
     pointer-events: none;
+  }
+}
+
+//Max-Width: 1350px ================================
+@media (max-width: 1350px) {
+  .sidebar {
+    margin-right: 60px;
+  }
+}
+//Max-Width: 1200px ================================
+@media (max-width: 1200px) {
+  .sidebar {
+    .item:not(:last-child) {
+      margin-bottom: 20px;
+    }
+    .item p {
+      font-size: 18px;
+      line-height: 20px;
+    }
+    .item svg {
+      width: 35px;
+      height: 35px;
+    }
+  }
+}
+//Max-Width: 1023px ================================
+@media (max-width: 1023px) {
+  .sidebar {
+    position: fixed;
+    top: 137px;
+    left: 0;
+    width: 100%;
+    z-index: 250;
+    transition: 0.3s;
+    margin-top: 0;
+    &.fixed {
+      background-color: #e1e1e3;
+      top: 0;
+      padding: 15px 0;
+      box-shadow: 0px 0px 10px rgba(#000, 0.3);
+    }
+    .sidebar__list {
+      display: flex;
+      justify-content: space-between;
+      padding: 0 15px;
+      overflow: auto;
+      &::-webkit-scrollbar {
+        height: 1px;
+      }
+      &::-webkit-scrollbar-thumb {
+        background-color: #000;
+      }
+      &::-webkit-scrollbar-track {
+        background-color: $main;
+      }
+    }
+    .item {
+      svg {
+        margin-right: 15px;
+      }
+    }
+    .item:not(:last-child) {
+      margin-bottom: 0px;
+      margin-right: 20px;
+    }
+  }
+}
+//Max-Width: 641px ================================
+@media (max-width: 641px) {
+  .sidebar {
+    top: 80px;
+  }
+}
+//Max-Width: 500px ================================
+@media (max-width: 500px) {
+  .sidebar {
+    top: 80px;
+    .item p {
+      font-size: 16px;
+      line-height: 16px;
+    }
+    .item svg {
+      width: 30px;
+      height: 30px;
+    }
+    &.fixed {
+      padding: 10px 0;
+    }
+    .sidebar__list {
+      padding: 0 10px;
+    }
+    .item:not(:last-child) {
+      margin-right: 10px;
+    }
   }
 }

@@ -43,10 +43,28 @@ export const Sidebar: React.FC<TSidebar> = ({ refs }) => {
     setActiveCategory(id);
   };
 
+  const refSidebar = React.useRef(null);
+  const [isFixed, setIsFixed] = React.useState(false);
+
+  const toggleVisible = () => {
+    const scrolled = document.documentElement.scrollTop;
+    if (scrolled > 10) {
+      setIsFixed(true);
+    } else {
+      setIsFixed(false);
+    }
+  };
+  window.addEventListener("scroll", toggleVisible);
+
   const status = useSelector(statusSliceSelector);
 
   return (
-    <Sticky top={30} className={styles.sidebar}>
+    <Sticky
+      enabled={window.innerWidth <= 1023 ? false : true}
+      top={30}
+      className={`${styles.sidebar} ${isFixed && styles.fixed}`}
+      ref={refSidebar}
+    >
       <ul className={styles.sidebar__list}>
         {status === "loading"
           ? Array(7)

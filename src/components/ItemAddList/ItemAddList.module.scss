@@ -26,7 +26,6 @@
     }
   }
 }
-
 .element {
   cursor: pointer;
   background-color: #e7e8e6;
@@ -105,5 +104,107 @@
     .check {
       opacity: 1;
     }
+  }
+}
+
+//Max-Width: 1023px ================================
+@media (max-width: 1023px) {
+  .item__add {
+    width: 100%;
+    .add__title {
+      font-size: 16px;
+      line-height: 25px;
+      text-align: center;
+    }
+    .add__list {
+      width: 220px;
+      margin: 0 auto;
+      max-height: 170px;
+    }
+  }
+  .element {
+    width: 100px;
+    height: 100px;
+    .info h5 {
+      font-size: 12px;
+      line-height: 16px;
+      top: 30px;
+    }
+  }
+}
+//Max-Width: 800px ================================
+@media (max-width: 800px) {
+  .item__add {
+    width: 80%;
+    .add__title {
+      text-align: left;
+    }
+    .add__list {
+      width: 100%;
+      display: grid;
+      grid-gap: 15px;
+      grid-template-columns: repeat(3, 1fr);
+      padding-bottom: 18px;
+      padding-top: 5px;
+      max-height: 185px;
+      margin-bottom: -15px;
+    }
+  }
+  .element {
+    margin: 0 auto;
+    width: 130px;
+    height: 130px;
+    .info {
+      background-color: rgba(#000, 0.3);
+      color: #fff;
+      opacity: 1;
+      backdrop-filter: none;
+    }
+    .info h5 {
+      font-size: 14px;
+      line-height: 18px;
+      // font-weight: 700;
+    }
+    .info .price {
+      font-size: 14px;
+    }
+  }
+}
+//Max-Width: 700px ================================
+@media (max-width: 700px) {
+  .item__add {
+    width: 100%;
+  }
+}
+//Max-Width: 600px ================================
+@media (max-width: 600px) {
+  .item__add .add__list {
+    grid-gap: 10px;
+    grid-template-columns: repeat(2, 1fr);
+    max-height: 215px;
+  }
+  .element {
+    width: 160px;
+    height: 160px;
+  }
+}
+//Max-Width: 400px ================================
+@media (max-width: 400px) {
+  .item__add .add__list {
+    max-height: 190px;
+  }
+  .element {
+    width: 130px;
+    height: 130px;
+  }
+}
+//Max-Width: 340px ================================
+@media (max-width: 340px) {
+  .item__add .add__list {
+    max-height: 190px;
+  }
+  .element {
+    width: 120px;
+    height: 120px;
   }
 }

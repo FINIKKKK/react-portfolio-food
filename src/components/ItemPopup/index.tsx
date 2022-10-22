@@ -3,7 +3,6 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { cartItemsSliceSelector } from "../../redux/cart/selectors";
 import { addCartItem } from "../../redux/cart/slice";
-import { TCartItem } from "../../redux/cart/types";
 import {
   countItemSliceSelector,
   miniPopupSliceSelector,
@@ -68,50 +67,37 @@ export const ItemPopup: React.FC<ItemPopupProps> = () => {
     document.documentElement.className = "";
   };
 
-  if (!miniPopup) {
-    return (
-      <div
-        className={classNames(`${styles.popup} popup`, {
-          [styles.active]: visible,
-        })}
-      >
-        <div className={styles.box}>
-          <svg
-            onClick={() => closePopup()}
-            width="20"
-            height="20"
-            className={styles.item__close}
-          >
-            <use xlinkHref="./icons.svg#close" />
-          </svg>
-          <div className={styles.popup__box}>
-            <div className={styles.leftSide}>
-              <img
-                src={params.img}
-                alt={params.name}
-                className={`${styles.item__img} shadow`}
-              />
-              <div className={styles.popup__content}>
-                <h2 className={styles.item__title}>{params.name}</h2>
-                <p className={styles.item__text}>{params.text}</p>
-                <div className={styles.item__info}>
-                  <ItemCounter id={params.id} />
-                </div>
-              </div>
-            </div>
-            <div className={styles.rightSide}>
-              <ItemAddList
-                title="Добавить соус"
-                categoryId={6}
-                refLink={refAddList1}
-              />
-              <ItemAddList
-                title="Добавить напитки"
-                categoryId={7}
-                refLink={refAddList2}
-              />
-              <div className={styles.item__price}>
-                Общая сумма: <b>{price} ₽</b>
+  return (
+    <div
+      className={classNames(`${styles.popup} popup`, {
+        [styles.active]: visible,
+        [styles.mini]: miniPopup,
+      })}
+    >
+      <div className={styles.box}>
+        <svg
+          onClick={() => closePopup()}
+          width="20"
+          height="20"
+          className={styles.item__close}
+        >
+          <use xlinkHref="./icons.svg#close" />
+        </svg>
+        <div className={styles.popup__box}>
+          <div className={styles.leftSide}>
+            <img
+              src={params.img}
+              alt={params.name}
+              className={`${styles.item__img} shadow`}
+            />
+            <div className={styles.popup__content}>
+              <h2 className={styles.item__title}>{params.name}</h2>
+              <p className={styles.item__text}>{params.text}</p>
+              <div className={styles.item__info}>
+                <ItemCounter id={params.id} />
+                {miniPopup && (
+                  <div className={styles.item__price}>{price} ₽</div>
+                )}
               </div>
               <div
                 onClick={onAddItem}
@@ -127,55 +113,25 @@ export const ItemPopup: React.FC<ItemPopupProps> = () => {
               </div>
             </div>
           </div>
-        </div>
-      </div>
-    );
-  } else {
-    return (
-      <div
-        className={classNames(`${styles.popup} ${styles.mini}`, {
-          [styles.active]: visible,
-        })}
-      >
-        <div className={styles.box}>
-          <svg
-            onClick={() => closePopup()}
-            width="20"
-            height="20"
-            className={styles.item__close}
-          >
-            <use xlinkHref="./icons.svg#close" />
-          </svg>
-          <div className={styles.popup__box}>
-            <div className={styles.leftSide}>
-              <img
-                src={params.img}
-                alt={params.name}
-                className={`${styles.item__img} shadow`}
+          {!miniPopup && (
+            <div className={styles.rightSide}>
+              <ItemAddList
+                title="Добавить соус"
+                categoryId={6}
+                refLink={refAddList1}
               />
-              <div className={styles.popup__content}>
-                <h2 className={styles.item__title}>{params.name}</h2>
-                <p className={styles.item__text}>{params.text}</p>
-                <div className={styles.item__flex}>
-                  <div className={styles.item__price}>
-                    <b>360 ₽</b>
-                  </div>
-                  {/* <ItemCounter count={count} /> */}
-                </div>
-                <div className={`${styles.item__btn} item__popup-btn btn`}>
-                  <div className={styles.added}>Добавлено</div>
-                  <div className={styles.content}>
-                    <p>Добавить в корзину</p>
-                    <svg width="20" height="20">
-                      <use xlinkHref="./icons.svg#cart" />
-                    </svg>
-                  </div>
-                </div>
+              <ItemAddList
+                title="Добавить напитки"
+                categoryId={7}
+                refLink={refAddList2}
+              />
+              <div className={styles.item__price}>
+                Общая сумма: <b>{price} ₽</b>
               </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
-    );
-  }
+    </div>
+  );
 };

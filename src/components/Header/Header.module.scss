@@ -91,3 +91,14 @@
     }
   }
 }
+
+//Max-Width: 641px ================================
+@media (max-width: 641px) {
+  .header {
+    margin-top: 10px;
+    margin-bottom: 30px;
+    .header__logo {
+      width: 70px;
+    }
+  }
+}

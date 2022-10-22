@@ -34,3 +34,64 @@
     padding: 10px 50px;
   }
 }
+
+//Max-Width: 750px ================================
+@media (max-width: 750px) {
+  .empty {
+    .empty__img {
+      width: 250px;
+      height: 250px;
+      margin-bottom: 28px;
+    }
+    .empty__title {
+      font-size: 19px;
+      line-height: 27px;
+      margin-bottom: 10px;
+    }
+    .empty__text {
+      font-size: 14px;
+      line-height: 18px;
+      margin-bottom: 20px;
+      max-width: 50%;
+    }
+    .empty__btn {
+      font-size: 12px;
+      line-height: 14px;
+      padding: 10px 40px;
+    }
+  }
+}
+//Max-Width: 600px ================================
+@media (max-width: 600px) {
+  .empty {
+    padding-top: 40px;
+    margin-bottom: 74px;
+    .empty__text {
+      max-width: 70%;
+    }
+  }
+}
+//Max-Width: 400px ================================
+@media (max-width: 400px) {
+  .empty {
+    .empty__img {
+      width: 200px;
+      height: 200px;
+    }
+    .empty__title {
+      font-size: 16px;
+      line-height: 24px;
+    }
+    .empty__text {
+      font-size: 14px;
+      line-height: 18px;
+      margin-bottom: 20px;
+      max-width: 85%;
+    }
+    .empty__btn {
+      font-size: 12px;
+      line-height: 14px;
+      padding: 8px 25px;
+    }
+  }
+}

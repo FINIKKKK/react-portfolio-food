@@ -30,3 +30,18 @@
     transform: translateX(0px);
   }
 }
+
+//Max-Width: 800px ================================
+@media (max-width: 800px) {
+  .btn {
+    right: 20px;
+    bottom: 20px;
+  }
+}
+//Max-Width: 400px ================================
+@media (max-width: 400px) {
+  .btn {
+    right: 15px;
+    bottom: 15px;
+  }
+}

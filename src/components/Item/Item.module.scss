@@ -92,3 +92,70 @@
     }
   }
 }
+
+//Max-Width: 1200px ================================
+@media (max-width: 1200px) {
+  .item {
+    margin-bottom: 90px;
+    width: 190px;
+    .item__img {
+      height: 151px;
+    }
+    .item__title {
+      font-size: 17px;
+      margin-bottom: 6px;
+    }
+  }
+}
+//Max-Width: 900px ================================
+@media (max-width: 900px) {
+  .item {
+    height: 285px;
+    width: auto;
+    max-width: 260px;
+    margin: 0 auto;
+    margin-bottom: 90px;
+  }
+  .item .item__img {
+    height: 170px;
+  }
+  .item .item__content {
+    margin-top: 10px;
+  }
+}
+//Max-Width: 700px ================================
+@media (max-width: 700px) {
+  .item .item__img {
+    height: 160px;
+  }
+}
+//Max-Width: 500px ================================
+@media (max-width: 500px) {
+  .item .item__img {
+    height: 150px;
+  }
+}
+//Max-Width: 400px ================================
+@media (max-width: 400px) {
+  .item {
+    height: 325px;
+    width: 80%;
+  }
+  .item .item__img {
+    height: 220px;
+  }
+}
+//Max-Width: 340px ================================
+@media (max-width: 340px) {
+  .item {
+    height: 325px;
+    width: 100%;
+  }
+  .item .item__img {
+    width: 100%;
+    display: flex;
+    margin: 0 auto;
+    margin-top: -80px;
+    height: 220px;
+  }
+}

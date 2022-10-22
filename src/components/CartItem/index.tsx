@@ -34,7 +34,7 @@ export const CartItem: React.FC<CartItemProps> = ({
       <td className={styles.title}>
         <h5>{name}</h5>
       </td>
-      <td>
+      <td className={styles.counter}>
         <ItemCounter id={id}/>
       </td>
       <td className={styles.price}>{price} ₽</td>
