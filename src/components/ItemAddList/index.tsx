@@ -22,12 +22,13 @@ export const ItemAddList: React.FC<ItemAddListProps> = ({
   return (
     <div className={styles.item__add}>
       <h5 className={styles.add__title}>{title}:</h5>
-      <div ref={refLink} className={styles.add__list} >
+      <div ref={refLink} className={styles.add__list}>
         {products
           .filter((obj: TProduct) => obj.category === categoryId)
-          .map((obj: TProduct, index) => (
+          .map((obj: TProduct) => (
             <ItemAddElement
-              key={index}
+              key={obj.id}
+              id={obj.id}
               img={obj.img}
               name={obj.name}
               price={obj.price}

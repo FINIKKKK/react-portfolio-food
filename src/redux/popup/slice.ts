@@ -10,6 +10,7 @@ const initialState: TPopupSlice = {
     name: "",
     text: "",
     price: 0,
+    addItems: [],
   },
   itemCount: 1,
 };

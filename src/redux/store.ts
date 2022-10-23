@@ -5,6 +5,7 @@ import products from "./products/slice";
 import categories from "./categories/slice";
 import popup from "./popup/slice";
 import cart from "./cart/slice";
+import addItems from "./addItems/slice";
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
     products,
     popup,
     cart,
+    addItems,
   },
 });
 

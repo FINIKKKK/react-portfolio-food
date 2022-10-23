@@ -1,6 +1,7 @@
 import classNames from "classnames";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { setAdditemsDefault } from "../../redux/addItems/slice";
 import { cartItemsSliceSelector } from "../../redux/cart/selectors";
 import { addCartItem } from "../../redux/cart/slice";
 import {
@@ -32,6 +33,7 @@ export const ItemPopup: React.FC<ItemPopupProps> = () => {
     dispatch(setPopupVisible(false));
     dispatch(setPopupMini(false));
     dispatch(setDefaultCount());
+    dispatch(setAdditemsDefault());
     document.documentElement.className = "";
 
     if (refAddList1.current !== null) {
@@ -58,6 +60,7 @@ export const ItemPopup: React.FC<ItemPopupProps> = () => {
     name: params.name,
     count,
     price: params.price,
+    addItems: params.addItems,
   };
 
   const onAddItem = () => {

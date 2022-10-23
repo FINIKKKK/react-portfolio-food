@@ -17,7 +17,6 @@
     animation: loading 1.5s infinite;
   }
 }
-
 @keyframes loading {
   100% {
     transform: translateX(100%);
@@ -29,7 +28,6 @@
     margin-bottom: 30px;
   }
 }
-
 .title {
   display: flex;
   margin-left: auto;
@@ -38,10 +36,73 @@
   margin-bottom: 80px;
   border-radius: 25px;
 }
-
 .item {
   width: 218px;
   height: 281px;
   border-radius: 24px;
   margin-bottom: 70px;
+}
+
+//Max-Width: 1200px ================================
+@media (max-width: 1200px) {
+  .item {
+    margin-bottom: 90px;
+    width: 190px;
+  }
+}
+//Max-Width: 1023px ================================
+@media (max-width: 1023px) {
+  .category {
+    width: 100px;
+    height: 45px;
+    margin-top: 10px;
+    margin-bottom: 15px;
+    &:not(:last-child) {
+      margin-bottom: 0px;
+      margin-right: 15px;
+    }
+  }
+}
+//Max-Width: 900px ================================
+@media (max-width: 900px) {
+  .item {
+    height: 285px;
+    max-width: 260px;
+    margin: 0 auto;
+    margin-bottom: 90px;
+  }
+  .title {
+    height: 51px;
+    margin-bottom: 64px;
+  }
+}
+//Max-Width: 700px ================================
+@media (max-width: 700px) {
+  .item .item__img {
+    height: 160px;
+  }
+}
+//Max-Width: 641px ================================
+@media (max-width: 641px) {
+  .title {
+    height: 51px;
+    margin-bottom: 85px;
+  }
+}
+//Max-Width: 500px ================================
+@media (max-width: 500px) {
+}
+//Max-Width: 400px ================================
+@media (max-width: 400px) {
+  .item {
+    height: 325px;
+    width: 80%;
+  }
+}
+//Max-Width: 340px ================================
+@media (max-width: 340px) {
+  .item {
+    height: 325px;
+    width: 100%;
+  }
 }
