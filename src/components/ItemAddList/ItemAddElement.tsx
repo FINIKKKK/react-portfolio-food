@@ -1,13 +1,10 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addItemsSliceSelector } from "../../redux/addItems/selectors";
-import {
-  setAddItemActive,
-  setAddItemDisabled,
-} from "../../redux/addItems/slice";
+import { addDopItem, removeDopItem } from "../../redux/dopItems/slice";
 import { cartItemsSliceSelector } from "../../redux/cart/selectors";
 
 import styles from "./ItemAddList.module.scss";
+import { dopItemsSliceSelector } from "../../redux/dopItems/selectors";
 
 type ItemAddElementProps = {
   id: number;
@@ -23,14 +20,16 @@ export const ItemAddElement: React.FC<ItemAddElementProps> = ({
   price,
 }) => {
   const dispatch = useDispatch();
-  const addItems = useSelector(addItemsSliceSelector);
-  const findItem = addItems.find((objId) => objId === id);
+  const dopItems = useSelector(dopItemsSliceSelector);
+  const findItem = dopItems.find((obj) => obj.id === id);
+
+  const count = 1;
 
   const onClickAddItem = () => {
     if (!findItem) {
-      dispatch(setAddItemActive(id));
+      dispatch(addDopItem({ id, img, name, price, count }));
     } else {
-      dispatch(setAddItemDisabled(id));
+      dispatch(removeDopItem({ id, img, name, price, count }));
     }
   };
 

@@ -12,6 +12,8 @@ import { TCartItem } from "../redux/cart/types";
 export const Cart: React.FC = () => {
   const items = useSelector(cartItemsSliceSelector);
 
+  console.log(items);
+
   const { totalCount, totalPrice } = useSelector(cartSliceSelector);
   const dispatch = useDispatch();
 

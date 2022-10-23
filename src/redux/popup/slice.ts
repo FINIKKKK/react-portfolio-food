@@ -10,7 +10,6 @@ const initialState: TPopupSlice = {
     name: "",
     text: "",
     price: 0,
-    addItems: [],
   },
   itemCount: 1,
 };
@@ -40,7 +39,7 @@ const popupSlice = createSlice({
     },
     setDefaultCount(state) {
       state.itemCount = 1;
-    },
+    }
   },
 });
 

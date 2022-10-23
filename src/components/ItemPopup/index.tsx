@@ -1,9 +1,9 @@
 import classNames from "classnames";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setAdditemsDefault } from "../../redux/addItems/slice";
+import { resetDopItems } from "../../redux/dopItems/slice";
 import { cartItemsSliceSelector } from "../../redux/cart/selectors";
-import { addCartItem } from "../../redux/cart/slice";
+import { addCartItem, addCDopItemToCart } from "../../redux/cart/slice";
 import {
   countItemSliceSelector,
   miniPopupSliceSelector,
@@ -19,6 +19,7 @@ import { ItemAddList } from "../ItemAddList";
 import { ItemCounter } from "../ItemCounter";
 
 import styles from "./ItemPopup.module.scss";
+import { dopItemsSliceSelector } from "../../redux/dopItems/selectors";
 
 type ItemPopupProps = {};
 
@@ -33,7 +34,7 @@ export const ItemPopup: React.FC<ItemPopupProps> = () => {
     dispatch(setPopupVisible(false));
     dispatch(setPopupMini(false));
     dispatch(setDefaultCount());
-    dispatch(setAdditemsDefault());
+    dispatch(resetDopItems());
     document.documentElement.className = "";
 
     if (refAddList1.current !== null) {
@@ -60,13 +61,18 @@ export const ItemPopup: React.FC<ItemPopupProps> = () => {
     name: params.name,
     count,
     price: params.price,
-    addItems: params.addItems,
   };
+
+  const dopItems = useSelector(dopItemsSliceSelector);
 
   const onAddItem = () => {
     dispatch(addCartItem(paramsCart));
+    if (dopItems) {
+      dispatch(addCDopItemToCart(dopItems));
+    }
     dispatch(setPopupVisible(false));
     dispatch(setDefaultCount());
+    dispatch(resetDopItems());
     document.documentElement.className = "";
   };
 

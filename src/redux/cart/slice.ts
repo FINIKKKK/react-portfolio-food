@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { getTotalCount, getTotalPrice } from "../../utils/getInfoCart";
+import { TDopItem } from "../dopItems/types";
 import { TCartSlice, TCartItem } from "./types";
 
 const initialState: TCartSlice = {
@@ -48,6 +49,26 @@ const cartSlice = createSlice({
     clearCart(state) {
       state.items = [];
     },
+
+    addCDopItemToCart(state, { payload }: PayloadAction<TDopItem[]>) {
+      const findItems1 = state.items.filter((obj1) =>
+        payload.some((obj2) => obj2.id === obj1.id)
+      );
+      const findItems3 = payload.filter((obj1) =>
+        state.items.every((obj2) => obj2.id !== obj1.id)
+      );
+
+      if (findItems1.length > 0) {
+        findItems1.forEach((obj) => obj.count++);
+        if (findItems3.length > 0) {
+          state.items.push(...findItems3);
+        }
+      } else {
+        state.items.push(...payload);
+      }
+      state.totalCount = getTotalCount(state.items);
+      state.totalPrice = getTotalPrice(state.items);
+    },
   },
 });
 
@@ -57,6 +78,7 @@ export const {
   plusCartItem,
   minusCartItem,
   clearCart,
+  addCDopItemToCart,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;
