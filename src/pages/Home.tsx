@@ -14,6 +14,12 @@ import { TProduct } from "../redux/products/types";
 import { useAppDispatch } from "../redux/store";
 
 import { ItemPopup } from "../components/ItemPopup";
+import {
+  resetCountPopup,
+  setPopupMini,
+  setPopupVisible,
+} from "../redux/popup/slice";
+import { resetDopItems } from "../redux/dopItems/slice";
 
 export const Home: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -25,7 +31,7 @@ export const Home: React.FC = () => {
         window.scrollTo(0, 0);
       } catch (error) {
         alert("Ошибка!");
-        console.log("Ошибка при получении ");
+        console.log("Ошибка при получении продуктов...");
         console.log(error);
       }
     };
@@ -42,14 +48,56 @@ export const Home: React.FC = () => {
 
   const status = useSelector(statusSliceSelector);
 
+  const refPopup = React.useRef<HTMLDivElement>(null);
+  const refItem = React.useRef<HTMLDivElement>(null);
+
+  const refAddList1 = React.createRef<HTMLDivElement>();
+  const refAddList2 = React.createRef<HTMLDivElement>();
+
+  const closePopup = () => {
+    dispatch(setPopupVisible(false));
+    dispatch(setPopupMini(false));
+    dispatch(resetCountPopup());
+    dispatch(resetDopItems());
+    document.documentElement.className = "";
+
+    if (refAddList1.current !== null) {
+      refAddList1.current.scrollTop = 0;
+    }
+    if (refAddList2.current !== null) {
+      refAddList2.current.scrollTop = 0;
+    }
+  };
+
+  const handleClickOutSide = (e: MouseEvent) => {
+    const _event = e as MouseEvent & {
+      path: Node[];
+    };
+    if (
+      refPopup.current &&
+      !_event.path.includes(refPopup.current) &&
+      // @ts-ignore
+      !_event.path.includes(refItem.current)
+    ) {
+      closePopup();
+    }
+  };
+  React.useEffect(() => {
+    document.body.addEventListener("click", handleClickOutSide);
+    return () => {
+      document.body.removeEventListener("click", handleClickOutSide);
+    };
+  }, []);
+
+
+
   return (
     <>
       <main className="main">
         <div className="container">
           <div className="main__inner">
             <Sidebar refs={refs} />
-
-            <div className="items">
+            <div ref={refItem} className="items">
               {status === "loading"
                 ? Array(2)
                     .fill(0)
@@ -88,7 +136,12 @@ export const Home: React.FC = () => {
       </main>
 
       <ButtonUp />
-      <ItemPopup />
+      <ItemPopup
+        refPopup={refPopup}
+        refAddList1={refAddList1}
+        refAddList2={refAddList2}
+        onClose={closePopup}
+      />
     </>
   );
 };

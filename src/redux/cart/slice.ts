@@ -69,6 +69,15 @@ const cartSlice = createSlice({
       state.totalCount = getTotalCount(state.items);
       state.totalPrice = getTotalPrice(state.items);
     },
+    // removeDopItemInItem(state, { payload }: PayloadAction<number[]>) {
+    //   // @ts-ignore
+    //   const findItem = state.items.find((obj) => obj.id === payload.itemId);  
+    //   // @ts-ignore
+    //   state.items = findItem.dop.filter((obj) => obj.id !== payload.id);  
+      
+    //   if(findItem) {
+    //   }
+    // },
   },
 });
 
@@ -79,6 +88,7 @@ export const {
   minusCartItem,
   clearCart,
   addCDopItemToCart,
+  // removeDopItemInItem
 } = cartSlice.actions;
 
 export default cartSlice.reducer;

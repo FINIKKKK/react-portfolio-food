@@ -6,7 +6,7 @@ export const fetchProducts = createAsyncThunk<TProduct[]>(
   "products/fetchProductsStatus",
   async () => {
     const { data } = await axios.get<TProduct[]>(
-      "https://634ac8cf5df952851418b562.mockapi.io/products"
+      `https://634ac8cf5df952851418b562.mockapi.io/products?`
     );
     return data;
   }

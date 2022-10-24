@@ -50,7 +50,7 @@ export const Item: React.FC<ItemProps> = ({
   };
 
   React.useEffect(() => {
-    const findActiveItem = cartItems.find((obj) => obj.id === id)
+    const findActiveItem = cartItems.find((obj) => obj.id === id);
     if (findActiveItem) {
       setIsActive(true);
     }

@@ -8,9 +8,16 @@ export const ButtonUp: React.FC<ButtonUpProps> = () => {
   const [visible, setVisible] = React.useState(false);
 
   const toggleVisible = () => {
+    const scrollHeight = document.body.scrollHeight;
+    const scrollY = window.scrollY;
+    const clientHeight = document.documentElement.clientHeight;
+
     const scrolled = document.documentElement.scrollTop;
     if (scrolled > 300) {
       setVisible(true);
+      if (scrollHeight - (scrollY + clientHeight) < 50) {
+        setVisible(false);
+      }
     } else if (scrolled <= 300) {
       setVisible(false);
     }
@@ -26,7 +33,10 @@ export const ButtonUp: React.FC<ButtonUpProps> = () => {
   window.addEventListener("scroll", toggleVisible);
 
   return (
-    <div onClick={scrollToTop} className={`${styles.btn} ${visible ? styles.show : ""}`}>
+    <div
+      onClick={scrollToTop}
+      className={`${styles.btn} ${visible ? styles.show : ""}`}
+    >
       <svg width="20" height="20">
         <use xlinkHref="./icons.svg#up" />
       </svg>

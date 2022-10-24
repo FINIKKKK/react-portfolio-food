@@ -37,7 +37,7 @@ const popupSlice = createSlice({
         state.itemCount--;
       }
     },
-    setDefaultCount(state) {
+    resetCountPopup(state) {
       state.itemCount = 1;
     }
   },
@@ -49,7 +49,7 @@ export const {
   setPopupParams,
   plusCountItem,
   minusCountItem,
-  setDefaultCount,
+  resetCountPopup,
 } = popupSlice.actions;
 
 export default popupSlice.reducer;

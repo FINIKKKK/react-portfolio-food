@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { resetDopItems } from "../../redux/dopItems/slice";
+import { addDopItemToCart, resetDopItems } from "../../redux/dopItems/slice";
 import { cartItemsSliceSelector } from "../../redux/cart/selectors";
 import { addCartItem, addCDopItemToCart } from "../../redux/cart/slice";
 import {
@@ -11,7 +11,7 @@ import {
   visibleSliceSelector,
 } from "../../redux/popup/selectors";
 import {
-  setDefaultCount,
+  resetCountPopup,
   setPopupMini,
   setPopupVisible,
 } from "../../redux/popup/slice";
@@ -21,38 +21,46 @@ import { ItemCounter } from "../ItemCounter";
 import styles from "./ItemPopup.module.scss";
 import { dopItemsSliceSelector } from "../../redux/dopItems/selectors";
 
-type ItemPopupProps = {};
+type ItemPopupProps = {
+  refPopup: any;
+  refAddList1?: any;
+  refAddList2?: any;
+  onClose: any;
+};
 
-export const ItemPopup: React.FC<ItemPopupProps> = () => {
+export const ItemPopup: React.FC<ItemPopupProps> = ({
+  refPopup,
+  onClose,
+  refAddList1,
+  refAddList2,
+}) => {
   const visible = useSelector(visibleSliceSelector);
   const dispatch = useDispatch();
 
-  const refAddList1 = React.createRef<HTMLDivElement>();
-  const refAddList2 = React.useRef<HTMLDivElement>(null);
-
   const closePopup = () => {
-    dispatch(setPopupVisible(false));
-    dispatch(setPopupMini(false));
-    dispatch(setDefaultCount());
-    dispatch(resetDopItems());
-    document.documentElement.className = "";
-
-    if (refAddList1.current !== null) {
-      refAddList1.current.scrollTop = 0;
-    }
-    if (refAddList2.current !== null) {
-      refAddList2.current.scrollTop = 0;
-    }
+    onClose();
   };
 
   const params = useSelector(paramsSliceSelector);
   const miniPopup = useSelector(miniPopupSliceSelector);
   const count = useSelector(countItemSliceSelector);
   const cartItems = useSelector(cartItemsSliceSelector);
+  const dopItems = useSelector(dopItemsSliceSelector);
 
   const findItem = cartItems.find((obj) => obj.id === params.id);
+  const dopItemsPrice = dopItems.reduce(
+    (sum, obj) => Number(obj.price) + sum,
+    0
+  );
+  // @ts-ignore
+  // const findItemDopItemsPrice = findItem?.dop.reduce(
+  //   // @ts-ignore
+  //   (sum, obj) => Number(obj.price) + sum,
+  //   0
+  // );
+
   const price = !findItem
-    ? params.price * count
+    ? params.price * count + dopItemsPrice
     : params.price * findItem.count;
 
   const paramsCart = {
@@ -63,17 +71,22 @@ export const ItemPopup: React.FC<ItemPopupProps> = () => {
     price: params.price,
   };
 
-  const dopItems = useSelector(dopItemsSliceSelector);
-
   const onAddItem = () => {
-    dispatch(addCartItem(paramsCart));
-    if (dopItems) {
-      dispatch(addCDopItemToCart(dopItems));
-    }
-    dispatch(setPopupVisible(false));
-    dispatch(setDefaultCount());
-    dispatch(resetDopItems());
-    document.documentElement.className = "";
+    // if (!findItem) {
+      dispatch(addCartItem(paramsCart));
+      if (dopItems) {
+        dispatch(addCDopItemToCart(dopItems));
+        dispatch(addDopItemToCart(dopItems));
+      }
+      setTimeout(() => {
+        dispatch(setPopupVisible(false));
+        dispatch(resetCountPopup());
+        dispatch(resetDopItems());
+        document.documentElement.className = "";
+      }, 500);
+    // } else {
+      // dispatch
+    // }
   };
 
   return (
@@ -83,7 +96,7 @@ export const ItemPopup: React.FC<ItemPopupProps> = () => {
         [styles.mini]: miniPopup,
       })}
     >
-      <div className={styles.box}>
+      <div ref={refPopup} className={styles.box}>
         <svg
           onClick={() => closePopup()}
           width="20"
@@ -113,11 +126,16 @@ export const ItemPopup: React.FC<ItemPopupProps> = () => {
                 className={`${styles.item__btn} item__popup-btn btn`}
               >
                 <div className={styles.added}>Добавлено</div>
-                <div className={styles.content}>
-                  <p>Добавить в корзину</p>
-                  <svg width="20" height="20">
-                    <use xlinkHref="./icons.svg#cart" />
-                  </svg>
+                <div
+                  className={`${styles.content} ${findItem && styles.active}`}
+                >
+                  <div className={styles.added}>Добавлено</div>
+                  <div className={styles.content}>
+                    <p>Добавить в корзину</p>
+                    <svg width="20" height="20">
+                      <use xlinkHref="./icons.svg#cart" />
+                    </svg>
+                  </div>
                 </div>
               </div>
             </div>
@@ -128,11 +146,13 @@ export const ItemPopup: React.FC<ItemPopupProps> = () => {
                 title="Добавить соус"
                 categoryId={6}
                 refLink={refAddList1}
+                itemId={params.id}
               />
               <ItemAddList
                 title="Добавить напитки"
                 categoryId={7}
                 refLink={refAddList2}
+                itemId={params.id}
               />
               <div className={styles.item__price}>
                 Общая сумма: <b>{price} ₽</b>

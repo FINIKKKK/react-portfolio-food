@@ -10,12 +10,14 @@ type ItemAddListProps = {
   title: string;
   categoryId: number;
   refLink: React.RefObject<HTMLDivElement>;
+  itemId: number
 };
 
 export const ItemAddList: React.FC<ItemAddListProps> = ({
   title,
   categoryId,
   refLink,
+  itemId
 }) => {
   const products = useSelector(productsSliceSelector);
 
@@ -32,6 +34,7 @@ export const ItemAddList: React.FC<ItemAddListProps> = ({
               img={obj.img}
               name={obj.name}
               price={obj.price}
+              itemId={itemId}
             />
           ))}
       </div>

@@ -10,6 +10,8 @@ import Sticky from "react-stickynode";
 import styles from "./Sidebar.module.scss";
 import { statusSliceSelector } from "../../redux/products/selectors";
 import { LoadingElement } from "../LoadingElement/LoadingElement";
+import Scrollspy from "react-scrollspy";
+import offEvent from "react-scrollspy";
 
 export type TSidebar = {
   refs: any;
@@ -32,15 +34,13 @@ export const Sidebar: React.FC<TSidebar> = ({ refs }) => {
     getCategories();
   }, []);
 
-  const [activeCategory, setActiveCategory] = React.useState(0);
+  const [isActive, setIsActive] = React.useState(true);
 
   const handleClickCategory = (id: number) => {
     refs[id].current.scrollIntoView({
       behavior: "smooth",
       block: "start",
     });
-
-    setActiveCategory(id);
   };
 
   const refSidebar = React.useRef(null);
@@ -49,6 +49,7 @@ export const Sidebar: React.FC<TSidebar> = ({ refs }) => {
   const toggleVisible = () => {
     const scrolled = document.documentElement.scrollTop;
     if (scrolled > 10) {
+      setIsActive(false)
       setIsFixed(true);
     } else {
       setIsFixed(false);
@@ -58,6 +59,8 @@ export const Sidebar: React.FC<TSidebar> = ({ refs }) => {
 
   const status = useSelector(statusSliceSelector);
 
+  const groups = categories.map((_, index) => `group${index}`);
+
   return (
     <Sticky
       enabled={window.innerWidth <= 1023 ? false : true}
@@ -65,7 +68,12 @@ export const Sidebar: React.FC<TSidebar> = ({ refs }) => {
       className={`${styles.sidebar} ${isFixed && styles.fixed}`}
       ref={refSidebar}
     >
-      <ul className={styles.sidebar__list}>
+      <Scrollspy
+        className={`${styles.sidebar__list}`}
+        items={groups}
+        offset={-50}
+        currentClassName={styles.active}
+      >
         {status === "loading"
           ? Array(7)
               .fill(0)
@@ -75,10 +83,7 @@ export const Sidebar: React.FC<TSidebar> = ({ refs }) => {
           : categories.map((obj: TCategory, index) => (
               <li
                 key={`${obj.name}_${index}`}
-                className={`
-              ${styles.item} 
-              ${activeCategory === index ? styles.active : ""}
-            `}
+                className={`${styles.item} ${index === 0 && isActive ? styles.active : ''}`}
                 onClick={() => handleClickCategory(index)}
               >
                 <svg width="20" height="20">
@@ -87,7 +92,7 @@ export const Sidebar: React.FC<TSidebar> = ({ refs }) => {
                 <p>{obj.name}</p>
               </li>
             ))}
-      </ul>
+      </Scrollspy>
     </Sticky>
   );
 };
