@@ -2,6 +2,7 @@
 
 // --------- footer ----------
 .footer {
+  z-index: 10;
   &__copy {
     padding: 13px 0;
     background-color: $main;

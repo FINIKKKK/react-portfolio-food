@@ -7,7 +7,7 @@
   border-radius: 24px;
   display: inline-block;
   width: 218px;
-  height: 281px;
+  height: 330px;
   transition: 0.3s;
   cursor: pointer;
   position: relative;
@@ -22,15 +22,24 @@
   }
 
   .item__content {
+    margin-top: 10px;
     padding: 0 17px;
+  }
+  .content__minus {
+    margin-top: -25px !important;
   }
 
   .item__img {
-    width: 100%;
-    height: 175px;
+    width: 95%;
+    height: 205px;
     object-fit: cover;
+    display: flex;
+    margin: 0 auto;
     margin-top: -80px;
     transition: 0.3s;
+  }
+  .rotated {
+    transform: rotate(-90deg);
   }
 
   .item__title {
@@ -40,6 +49,10 @@
     text-transform: capitalize;
     margin-top: 0px;
     margin-bottom: 11px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow-y: hidden;
     &.mini {
       font-size: 14px;
       line-height: 22px;
@@ -96,10 +109,10 @@
 //Max-Width: 1200px ================================
 @media (max-width: 1200px) {
   .item {
-    margin-bottom: 90px;
+    margin-bottom: 90px !important;
     width: 190px;
     .item__img {
-      height: 151px;
+      height: 175px;
     }
     .item__title {
       font-size: 17px;
@@ -107,17 +120,24 @@
     }
   }
 }
+//Max-Width: 1200px ================================
+@media (max-width: 1200px) {
+  .item {
+    margin: 0 auto;
+  }
+}
 //Max-Width: 900px ================================
 @media (max-width: 900px) {
   .item {
-    height: 285px;
+    height: 355px;
     width: auto;
     max-width: 260px;
     margin: 0 auto;
     margin-bottom: 90px;
   }
   .item .item__img {
-    height: 170px;
+    width: 93%;
+    height: 240px;
   }
   .item .item__content {
     margin-top: 10px;
@@ -126,19 +146,27 @@
 //Max-Width: 700px ================================
 @media (max-width: 700px) {
   .item .item__img {
-    height: 160px;
+    width: 100%;
+    height: 210px;
+  }
+}
+//Max-Width: 700px ================================
+@media (max-width: 700px) {
+  .item .item__img {
+    width: 90%;
+    height: 230px;
   }
 }
 //Max-Width: 500px ================================
 @media (max-width: 500px) {
   .item .item__img {
-    height: 150px;
+    height: 200px;
   }
 }
 //Max-Width: 400px ================================
 @media (max-width: 400px) {
   .item {
-    height: 325px;
+    height: 345px;
     width: 80%;
   }
   .item .item__img {
@@ -148,14 +176,14 @@
 //Max-Width: 340px ================================
 @media (max-width: 340px) {
   .item {
-    height: 325px;
+    height: 355px;
     width: 100%;
   }
   .item .item__img {
-    width: 100%;
+    width: 90%;
     display: flex;
     margin: 0 auto;
     margin-top: -80px;
-    height: 220px;
+    height: 230px;
   }
 }

@@ -109,9 +109,7 @@ export const ItemPopup: React.FC<ItemPopupProps> = ({
       dispatch(removeCartItem(params.id));
       dispatch(removeAllDopItemInItem(params.id));
       dispatch(removeDopItemsWhenRemoveItem(params.id));
-      dopItemsCartInItem.forEach((obj) =>
-        dispatch(removeOrMinusCartItem(obj))
-      );
+      dopItemsCartInItem.forEach((obj) => dispatch(removeOrMinusCartItem(obj)));
     }
   };
 
@@ -136,7 +134,13 @@ export const ItemPopup: React.FC<ItemPopupProps> = ({
             <img
               src={params.img}
               alt={params.name}
-              className={`${styles.item__img} shadow`}
+              className={`${styles.item__img} shadow ${
+                params.category === 2 ? styles.rotated : ""
+              } ${
+                params.category === 4 || params.category === 5
+                  ? styles.small
+                  : ""
+              }`}
             />
             <div className={styles.popup__content}>
               <h2 className={styles.item__title}>{params.name}</h2>

@@ -46,7 +46,7 @@ export const Item: React.FC<ItemProps> = ({
     }
     dispatch(setPopupVisible(true));
     document.documentElement.className = "fixed";
-    dispatch(setPopupParams({ id, img, name, text, price }));
+    dispatch(setPopupParams({ id, img, name, text, price, category }));
   };
 
   React.useEffect(() => {
@@ -56,13 +56,25 @@ export const Item: React.FC<ItemProps> = ({
     }
   }, [cartItems]);
 
+  const contentMinus = category === 1 || category === 2 || category === 6;
+
   return (
     <div
       onClick={() => openPopup()}
       className={`${styles.item} item ${isActive ? styles.active : ""}`}
     >
-      <img src={img} alt={name} className={`${styles.item__img} shadow`} />
-      <div className={styles.item__content}>
+      <img
+        src={img}
+        alt={name}
+        className={`${styles.item__img} shadow ${
+          category === 2 ? styles.rotated : ""
+        }`}
+      />
+      <div
+        className={`${styles.item__content} ${
+          contentMinus ? styles.content__minus : ""
+        }`}
+      >
         <h5
           ref={titleRef}
           className={`${styles.item__title} ${

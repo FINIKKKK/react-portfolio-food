@@ -6,7 +6,7 @@ export type TParams = {
   name: string;
   text: string;
   price: number;
-  dop?: TDopItem[]
+  category?: number;
 };
 
 export interface TPopupSlice {
