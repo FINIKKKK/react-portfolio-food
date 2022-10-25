@@ -1,6 +1,10 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addDopItem, removeDopItem } from "../../redux/dopItems/slice";
+import {
+  addDopItem,
+  addOneDopItemToCart,
+  removeDopItem,
+} from "../../redux/dopItems/slice";
 import { cartItemsSliceSelector } from "../../redux/cart/selectors";
 
 import styles from "./ItemAddList.module.scss";
@@ -10,6 +14,7 @@ import {
 } from "../../redux/dopItems/selectors";
 import { TDopItem } from "../../redux/dopItems/types";
 import { removeDopItemInItem } from "../../redux/dopItems/slice";
+import { addCartItem, removeCartItem, removeOrMinusCartItem,  } from "../../redux/cart/slice";
 
 type ItemAddElementProps = {
   id: number;
@@ -18,8 +23,6 @@ type ItemAddElementProps = {
   price: number;
   itemId: number;
 };
-
-
 
 export const ItemAddElement: React.FC<ItemAddElementProps> = ({
   id,
@@ -31,6 +34,8 @@ export const ItemAddElement: React.FC<ItemAddElementProps> = ({
   const dispatch = useDispatch();
   const dopItems = useSelector(dopItemsSliceSelector);
   const itemsCart = useSelector(dopItemsCartSliceSelector);
+  const cartItems = useSelector(cartItemsSliceSelector);
+  const itemIdInCart = cartItems.find((obj) => obj.id === itemId);
   // @ts-ignore
   const dopItemsInItem = itemsCart.filter((obj) => obj.itemId === itemId);
   // @ts-ignore
@@ -44,12 +49,26 @@ export const ItemAddElement: React.FC<ItemAddElementProps> = ({
 
   const findItem = dopItems.find((obj) => obj.id === id);
   const count = 1;
+  const params = {
+    id,
+    img,
+    name,
+    price,
+    count,
+    itemId,
+  };
   const onClickAddItem = () => {
-    if (findItemInItem) {
-      dispatch(removeDopItemInItem({ itemId, id }));
+    if (!findItemInItem && itemIdInCart) {
+      dispatch(addOneDopItemToCart(params));
+      dispatch(addCartItem(params));
     }
 
-    if (!findItemInItem && !findItem) {
+    if (findItemInItem) {
+      dispatch(removeDopItemInItem({ itemId, id }));
+      dispatch(removeOrMinusCartItem(params));
+    }
+
+    if (!findItemInItem && !findItem && !itemIdInCart) {
       dispatch(addDopItem({ id, img, name, price, count, itemId }));
     } else {
       dispatch(removeDopItem({ id, img, name, price, count, itemId }));

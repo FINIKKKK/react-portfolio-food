@@ -22,14 +22,22 @@ const dopItemsSlice = createSlice({
     addDopItemToCart(state, { payload }: PayloadAction<TDopItem[]>) {
       state.itemsCart.push(...payload);
     },
+    addOneDopItemToCart(state, { payload }: PayloadAction<TDopItem>) {
+      state.itemsCart.push({ ...payload });
+    },
     removeDopItemInItem(
       state,
       { payload }: PayloadAction<{ itemId: number; id: number }>
     ) {
-      // state.itemsCart = []
       state.itemsCart = state.itemsCart.filter(
         (obj) => !(obj.itemId === payload.itemId && obj.id === payload.id)
       );
+    },
+    removeAllDopItemInItem(state, { payload }: PayloadAction<number>) {
+      state.itemsCart = state.itemsCart.filter((obj) => obj.id !== payload);
+    },
+    removeDopItemsWhenRemoveItem(state, { payload }: PayloadAction<number>) {
+      state.itemsCart = state.itemsCart.filter((obj) => obj.itemId !== payload);
     },
   },
 });
@@ -39,7 +47,10 @@ export const {
   removeDopItem,
   resetDopItems,
   addDopItemToCart,
+  addOneDopItemToCart,
   removeDopItemInItem,
+  removeAllDopItemInItem,
+  removeDopItemsWhenRemoveItem
 } = dopItemsSlice.actions;
 
 export default dopItemsSlice.reducer;

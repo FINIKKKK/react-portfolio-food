@@ -1,9 +1,19 @@
 import classNames from "classnames";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addDopItemToCart, resetDopItems } from "../../redux/dopItems/slice";
+import {
+  addDopItemToCart,
+  removeAllDopItemInItem,
+  removeDopItemsWhenRemoveItem,
+  resetDopItems,
+} from "../../redux/dopItems/slice";
 import { cartItemsSliceSelector } from "../../redux/cart/selectors";
-import { addCartItem, addCDopItemToCart } from "../../redux/cart/slice";
+import {
+  addCartItem,
+  addCDopItemToCart,
+  removeCartItem,
+  removeOrMinusCartItem,
+} from "../../redux/cart/slice";
 import {
   countItemSliceSelector,
   miniPopupSliceSelector,
@@ -19,7 +29,10 @@ import { ItemAddList } from "../ItemAddList";
 import { ItemCounter } from "../ItemCounter";
 
 import styles from "./ItemPopup.module.scss";
-import { dopItemsSliceSelector } from "../../redux/dopItems/selectors";
+import {
+  dopItemsCartSliceSelector,
+  dopItemsSliceSelector,
+} from "../../redux/dopItems/selectors";
 
 type ItemPopupProps = {
   refPopup: any;
@@ -46,9 +59,17 @@ export const ItemPopup: React.FC<ItemPopupProps> = ({
   const count = useSelector(countItemSliceSelector);
   const cartItems = useSelector(cartItemsSliceSelector);
   const dopItems = useSelector(dopItemsSliceSelector);
+  const dopItemsCart = useSelector(dopItemsCartSliceSelector);
 
   const findItem = cartItems.find((obj) => obj.id === params.id);
   const dopItemsPrice = dopItems.reduce(
+    (sum, obj) => Number(obj.price) + sum,
+    0
+  );
+  const dopItemsCartInItem = dopItemsCart.filter(
+    (obj) => obj.itemId === params.id
+  );
+  const dopItemsCartPrice = dopItemsCartInItem.reduce(
     (sum, obj) => Number(obj.price) + sum,
     0
   );
@@ -61,7 +82,7 @@ export const ItemPopup: React.FC<ItemPopupProps> = ({
 
   const price = !findItem
     ? params.price * count + dopItemsPrice
-    : params.price * findItem.count;
+    : params.price * findItem.count + dopItemsCartPrice;
 
   const paramsCart = {
     id: params.id,
@@ -72,7 +93,7 @@ export const ItemPopup: React.FC<ItemPopupProps> = ({
   };
 
   const onAddItem = () => {
-    // if (!findItem) {
+    if (!findItem) {
       dispatch(addCartItem(paramsCart));
       if (dopItems) {
         dispatch(addCDopItemToCart(dopItems));
@@ -84,9 +105,14 @@ export const ItemPopup: React.FC<ItemPopupProps> = ({
         dispatch(resetDopItems());
         document.documentElement.className = "";
       }, 500);
-    // } else {
-      // dispatch
-    // }
+    } else {
+      dispatch(removeCartItem(params.id));
+      dispatch(removeAllDopItemInItem(params.id));
+      dispatch(removeDopItemsWhenRemoveItem(params.id));
+      dopItemsCartInItem.forEach((obj) =>
+        dispatch(removeOrMinusCartItem(obj))
+      );
+    }
   };
 
   return (
@@ -130,6 +156,7 @@ export const ItemPopup: React.FC<ItemPopupProps> = ({
                   className={`${styles.content} ${findItem && styles.active}`}
                 >
                   <div className={styles.added}>Добавлено</div>
+                  <div className={styles.remove}>Удалить</div>
                   <div className={styles.content}>
                     <p>Добавить в корзину</p>
                     <svg width="20" height="20">
