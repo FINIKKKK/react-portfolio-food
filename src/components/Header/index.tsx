@@ -6,10 +6,32 @@ import logoMini from "../../assets/img/logo--mini.png";
 import styles from "./Header.module.scss";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { cartSliceSelector } from "../../redux/cart/selectors";
+import {
+  cartItemsSliceSelector,
+  cartSliceSelector,
+} from "../../redux/cart/selectors";
+import {
+  dopItemsCartSliceSelector,
+  dopItemsSliceSelector,
+} from "../../redux/dopItems/selectors";
 
 export const Header: React.FC = () => {
   const { totalCount } = useSelector(cartSliceSelector);
+  const itemsCart = useSelector(cartItemsSliceSelector);
+  const dopItemsCart = useSelector(dopItemsCartSliceSelector);
+
+  const isMounted = React.useRef(false);
+
+  React.useEffect(() => {
+    if (isMounted.current) {
+      const data = JSON.stringify(itemsCart);
+      localStorage.setItem("cart", data);
+
+      const data2 = JSON.stringify(dopItemsCart);
+      localStorage.setItem("dopItems", data2);
+    }
+    isMounted.current = true;
+  }, [itemsCart, dopItemsCart]);
 
   return (
     <header className={styles.header}>

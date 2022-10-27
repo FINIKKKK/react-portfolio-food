@@ -1,12 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { getTotalCount, getTotalPrice } from "../../utils/getInfoCart";
+import { getCartInfo, getTotalCount, getTotalPrice } from "../../utils/getInfoCart";
 import { TDopItem } from "../dopItems/types";
 import { TCartSlice, TCartItem } from "./types";
 
 const initialState: TCartSlice = {
-  items: [],
-  totalCount: 0,
-  totalPrice: 0,
+  items: getCartInfo().items,
+  totalCount: getCartInfo().totalCount,
+  totalPrice: getCartInfo().totalPrice,
 };
 
 const cartSlice = createSlice({

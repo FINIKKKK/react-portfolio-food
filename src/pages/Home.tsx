@@ -89,8 +89,6 @@ export const Home: React.FC = () => {
     };
   }, []);
 
-
-
   return (
     <>
       <main className="main">

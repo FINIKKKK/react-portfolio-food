@@ -49,7 +49,7 @@ export const Sidebar: React.FC<TSidebar> = ({ refs }) => {
   const toggleVisible = () => {
     const scrolled = document.documentElement.scrollTop;
     if (scrolled > 10) {
-      setIsActive(false)
+      setIsActive(false);
       setIsFixed(true);
     } else {
       setIsFixed(false);
@@ -83,7 +83,9 @@ export const Sidebar: React.FC<TSidebar> = ({ refs }) => {
           : categories.map((obj: TCategory, index) => (
               <li
                 key={`${obj.name}_${index}`}
-                className={`${styles.item} ${index === 0 && isActive ? styles.active : ''}`}
+                className={`${styles.item} ${
+                  index === 0 && isActive ? styles.active : ""
+                }`}
                 onClick={() => handleClickCategory(index)}
               >
                 <svg width="20" height="20">

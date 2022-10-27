@@ -1,9 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { getDopItemsInfo } from "../../utils/getInfoCart";
 import { TDopItemsSlice, TDopItem } from "./types";
 
 const initialState: TDopItemsSlice = {
   items: [],
-  itemsCart: [],
+  itemsCart: getDopItemsInfo().itemsCart,
 };
 
 const dopItemsSlice = createSlice({
