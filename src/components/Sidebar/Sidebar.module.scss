@@ -79,6 +79,9 @@
       top: 0;
       padding: 15px 0;
       box-shadow: 0px 0px 10px rgba(#000, 0.3);
+      .sidebar__list {
+        width: 90%;
+      }
     }
     .sidebar__list {
       display: flex;
@@ -110,6 +113,12 @@
 @media (max-width: 641px) {
   .sidebar {
     top: 80px;
+    &.fixed .sidebar__list {
+      width: 85%;
+    }
+    .item svg {
+      display: none;
+    }
   }
 }
 //Max-Width: 500px ================================
@@ -126,12 +135,25 @@
     }
     &.fixed {
       padding: 10px 0;
+      .sidebar__list {
+        width: 85%;
+      }
     }
     .sidebar__list {
       padding: 0 10px;
     }
     .item:not(:last-child) {
       margin-right: 10px;
+    }
+  }
+}
+
+//Max-Width: 500px ================================
+@media (max-width: 500px) {
+  .sidebar.fixed {
+    .sidebar__list {
+      padding: 0 10px;
+      width: 80%;
     }
   }
 }

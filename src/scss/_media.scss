@@ -176,6 +176,15 @@
 
 //Max-Width: 400px ================================
 @media (max-width: 400px) {
+  .container {
+    padding: 0 10px;
+  }
+  .items .items__group {
+    margin-bottom: -35px;
+  }
+  .items .items__group-grid {
+    grid-template-columns: 50% 50%;
+  }
   .cart {
     .cart__back {
       top: -5px;
@@ -187,11 +196,6 @@
       p {
         display: none;
       }
-    }
-  }
-  .items {
-    .items__group-grid {
-      grid-template-columns: repeat(1, 1fr);
     }
   }
 }

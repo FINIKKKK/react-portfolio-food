@@ -33,8 +33,20 @@ export const Header: React.FC = () => {
     isMounted.current = true;
   }, [itemsCart, dopItemsCart]);
 
+  const [isFixed, setIsFixed] = React.useState(false);
+
+  const toggleVisible = (e: any) => {
+    const scrolled = document.documentElement.scrollTop;
+    if (scrolled > 10) {
+      setIsFixed(true);
+    } else {
+      setIsFixed(false);
+    }
+  };
+  window.addEventListener("scroll", toggleVisible);
+
   return (
-    <header className={styles.header}>
+    <header className={`${styles.header}`} id="header">
       <div className="container">
         <div className={styles.header__inner}>
           <Link to="/" className={styles.header__logo}>
@@ -50,7 +62,12 @@ export const Header: React.FC = () => {
                 <use xlinkHref="./icons.svg#phone" />
               </svg>
             </a>
-            <Link to="/cart" className={styles.header__cart}>
+            <Link
+              to="/cart"
+              className={`${styles.header__cart}  ${
+                isFixed ? styles.fixed : ""
+              }`}
+            >
               <svg width="20" height="20">
                 <use xlinkHref="./icons.svg#cart" />
               </svg>

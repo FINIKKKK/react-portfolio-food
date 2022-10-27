@@ -35,18 +35,26 @@ export const Sidebar: React.FC<TSidebar> = ({ refs }) => {
   }, []);
 
   const [isActive, setIsActive] = React.useState(true);
+  const refList = React.useRef();
+  // @ts-ignore
+  const scrollLeft = refList.current && refList.current.offsetWidth * 0.2;
+  console.log(scrollLeft);
 
   const handleClickCategory = (id: number) => {
     refs[id].current.scrollIntoView({
       behavior: "smooth",
       block: "start",
     });
+    if (refList.current) {
+      // @ts-ignore
+      refList.current.scrollTo({ behavior: "smooth", left: scrollLeft });
+    }
   };
 
   const refSidebar = React.useRef(null);
   const [isFixed, setIsFixed] = React.useState(false);
 
-  const toggleVisible = () => {
+  const toggleVisible = (e: any) => {
     const scrolled = document.documentElement.scrollTop;
     if (scrolled > 10) {
       setIsActive(false);
@@ -57,6 +65,8 @@ export const Sidebar: React.FC<TSidebar> = ({ refs }) => {
   };
   window.addEventListener("scroll", toggleVisible);
 
+  // console.log(document.documentElement.scrollHeight);
+
   const status = useSelector(statusSliceSelector);
 
   const groups = categories.map((_, index) => `group${index}`);
@@ -65,14 +75,15 @@ export const Sidebar: React.FC<TSidebar> = ({ refs }) => {
     <Sticky
       enabled={window.innerWidth <= 1023 ? false : true}
       top={30}
-      className={`${styles.sidebar} ${isFixed && styles.fixed}`}
+      bottomBoundary={document.documentElement.scrollHeight - 350}
+      className={`${styles.sidebar} ${isFixed ? styles.fixed : ""}`}
       ref={refSidebar}
     >
       <Scrollspy
-        className={`${styles.sidebar__list}`}
         items={groups}
         offset={-50}
         currentClassName={styles.active}
+        className={`${styles.sidebar__list}`}
       >
         {status === "loading"
           ? Array(7)

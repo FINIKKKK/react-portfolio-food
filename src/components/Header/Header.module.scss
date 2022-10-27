@@ -63,6 +63,25 @@
       }
     }
   }
+  .fixed {
+    position: fixed !important;
+    top: 15px;
+    right: 15px;
+    z-index: 1000;
+    background-color: $main;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    span {
+      background-color: #000 !important;
+      color: #fff !important;
+      top: 0 !important;
+      right: -3px !important;
+    }
+  }
 
   .header__search {
   }
@@ -99,6 +118,39 @@
     margin-bottom: 30px;
     .header__logo {
       width: 70px;
+    }
+
+    .fixed {
+      top: 15px;
+      right: 22px;
+      width: 40px;
+      height: 40px;
+      svg {
+        width: 18px;
+      }
+      span {
+        top: -3px !important;
+        right: -8px !important;
+      }
+    }
+  }
+}
+
+//Max-Width: 500px ================================
+@media (max-width: 500px) {
+  .header {
+    .fixed {
+      top: 10px;
+      right: 15px;
+      width: 33px;
+      height: 33px;
+      svg {
+        width: 16px;
+      }
+      span {
+        top: -3px !important;
+        right: -8px !important;
+      }
     }
   }
 }

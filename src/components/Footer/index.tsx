@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 
 export const Footer: React.FC = () => {
   return (
-    <footer className={styles.footer}>
+    <footer className={styles.footer} id="footer">
       <div className="container">
         <div className={styles.footer__inner}>
           <div className="line"></div>
@@ -17,7 +17,9 @@ export const Footer: React.FC = () => {
               <img src={logo} alt="logo" />
             </picture>
           </Link>
-          <p className={styles.footer__text}>Ресторан разнообразной японской еды</p>
+          <p className={styles.footer__text}>
+            Ресторан разнообразной японской еды
+          </p>
           <div className={styles.footer__phones}>
             <svg className={styles.icon} width="20" height="20">
               <use xlinkHref="./icons.svg#phone" />
