@@ -11,7 +11,6 @@ import styles from "./Sidebar.module.scss";
 import { statusSliceSelector } from "../../redux/products/selectors";
 import { LoadingElement } from "../LoadingElement/LoadingElement";
 import Scrollspy from "react-scrollspy";
-import offEvent from "react-scrollspy";
 
 export type TSidebar = {
   refs: any;
@@ -66,6 +65,7 @@ export const Sidebar: React.FC<TSidebar> = ({ refs }) => {
   window.addEventListener("scroll", toggleVisible);
 
   // console.log(document.documentElement.scrollHeight);
+
 
   const status = useSelector(statusSliceSelector);
 

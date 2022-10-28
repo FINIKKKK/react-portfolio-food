@@ -40,6 +40,9 @@ const dopItemsSlice = createSlice({
     removeDopItemsWhenRemoveItem(state, { payload }: PayloadAction<number>) {
       state.itemsCart = state.itemsCart.filter((obj) => obj.itemId !== payload);
     },
+    resetDopItemsCart(state) {
+        state.itemsCart = []
+    },
   },
 });
 
@@ -51,7 +54,8 @@ export const {
   addOneDopItemToCart,
   removeDopItemInItem,
   removeAllDopItemInItem,
-  removeDopItemsWhenRemoveItem
+  removeDopItemsWhenRemoveItem,
+  resetDopItemsCart
 } = dopItemsSlice.actions;
 
 export default dopItemsSlice.reducer;

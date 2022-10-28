@@ -20,6 +20,7 @@ import {
   setPopupVisible,
 } from "../redux/popup/slice";
 import { resetDopItems } from "../redux/dopItems/slice";
+import { miniPopupSliceSelector } from "../redux/popup/selectors";
 
 export const Home: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -40,6 +41,7 @@ export const Home: React.FC = () => {
 
   const products = useSelector(productsSliceSelector);
   const categories = useSelector(categoriesSliceSelector);
+  const isMini = useSelector(miniPopupSliceSelector);
 
   const refs = categories.reduce((acc: any, value, index: number) => {
     acc[index] = React.createRef<HTMLDivElement>();
@@ -56,7 +58,11 @@ export const Home: React.FC = () => {
 
   const closePopup = () => {
     dispatch(setPopupVisible(false));
-    dispatch(setPopupMini(false));
+    if (isMini) {
+      setTimeout(() => dispatch(setPopupMini(false)), 300);
+    } else {
+      dispatch(setPopupMini(false));
+    }
     dispatch(resetCountPopup());
     dispatch(resetDopItems());
     document.documentElement.className = "";

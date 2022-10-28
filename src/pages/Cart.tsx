@@ -8,18 +8,20 @@ import {
 } from "../redux/cart/selectors";
 import { clearCart } from "../redux/cart/slice";
 import { TCartItem } from "../redux/cart/types";
+import { resetDopItemsCart } from "../redux/dopItems/slice";
 
 export const Cart: React.FC = () => {
   const items = useSelector(cartItemsSliceSelector);
-
-  console.log(items);
 
   const { totalCount, totalPrice } = useSelector(cartSliceSelector);
   const dispatch = useDispatch();
 
   const onClearCart = () => {
     dispatch(clearCart());
+    dispatch(resetDopItemsCart());
   };
+
+  const items1 = items && [...items].sort((prev, next) => prev.id - next.id);
 
   return (
     <section className="cart">
@@ -56,7 +58,7 @@ export const Cart: React.FC = () => {
 
                 <table className="cart__table">
                   <tbody>
-                    {items.map((obj: TCartItem) => (
+                    {items1.map((obj: TCartItem) => (
                       <CartItem key={obj.id} {...obj} />
                     ))}
                   </tbody>

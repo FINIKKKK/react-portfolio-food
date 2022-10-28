@@ -65,7 +65,7 @@ export const Header: React.FC = () => {
             <Link
               to="/cart"
               className={`${styles.header__cart}  ${
-                isFixed ? styles.fixed : ""
+                window.innerWidth <= 1023 && isFixed ? styles.fixed : ""
               }`}
             >
               <svg width="20" height="20">

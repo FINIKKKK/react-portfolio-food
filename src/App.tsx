@@ -5,6 +5,9 @@ import { Footer, Header } from "./components";
 import { Home, Cart } from "./pages";
 
 function App() {
+  React.useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <>
       <Header />
