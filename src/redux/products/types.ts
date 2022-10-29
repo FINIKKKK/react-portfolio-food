@@ -8,11 +8,11 @@ export type TProduct = {
 };
 
 export interface TProductsSlice {
-  status: ProductStatus;
+  status: LoadingStatus;
   items: TProduct[];
 }
 
-export enum ProductStatus {
+export enum LoadingStatus {
   LOADING = "loading",
   SUCCESS = "success",
   ERROR = "error",

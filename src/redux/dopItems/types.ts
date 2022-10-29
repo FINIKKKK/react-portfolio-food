@@ -5,10 +5,10 @@ export type TDopItem = {
   price: number;
   count: number;
   itemId: number;
-  category: string;
+  category?: number;
 };
 
 export interface TDopItemsSlice {
-  items: TDopItem[];
-  itemsCart: TDopItem[];
+  dopItems: TDopItem[];
+  dopItemsCart: TDopItem[];
 }

@@ -1,6 +1,9 @@
-import classNames from "classnames";
 import React from "react";
+import classNames from "classnames";
 import { useDispatch, useSelector } from "react-redux";
+
+import { ItemAddList } from "../ItemAddList";
+import { ItemCounter } from "../ItemCounter";
 import {
   addDopItemToCart,
   removeAllDopItemInItem,
@@ -9,32 +12,31 @@ import {
 } from "../../redux/dopItems/slice";
 import {
   addCartItem,
-  addCDopItemToCart,
+  addDopItemsToCart,
   removeCartItem,
   removeOrMinusCartItem,
 } from "../../redux/cart/slice";
-import { popupSliceSelector } from "../../redux/popup/selectors";
 import { resetCountPopup, setPopupVisible } from "../../redux/popup/slice";
-import { ItemAddList } from "../ItemAddList";
-import { ItemCounter } from "../ItemCounter";
-
-import styles from "./ItemPopup.module.scss";
+import { popupSliceSelector } from "../../redux/popup/selectors";
 import { dopItemsSliceSelector } from "../../redux/dopItems/selectors";
 import { cartSliceSelector } from "../../redux/cart/selectors";
 
+import styles from "./ItemPopup.module.scss";
+
 type ItemPopupProps = {
-  refPopup: any;
-  refAddList1?: any;
-  refAddList2?: any;
+  refPopup: React.RefObject<HTMLDivElement>;
+  refAddList1: React.RefObject<HTMLDivElement>;
+  refAddList2: React.RefObject<HTMLDivElement>;
   onClose: any;
 };
 
 export const ItemPopup: React.FC<ItemPopupProps> = ({
   refPopup,
-  onClose,
   refAddList1,
   refAddList2,
+  onClose,
 }) => {
+  const dispatch = useDispatch();
   const {
     visible,
     mini,
@@ -42,16 +44,11 @@ export const ItemPopup: React.FC<ItemPopupProps> = ({
     itemCount: count,
   } = useSelector(popupSliceSelector);
   const { items: cartItems } = useSelector(cartSliceSelector);
-  const { items: dopItems, itemsCart: dopItemsCart } = useSelector(
+  const { dopItems, dopItemsCart } = useSelector(
     dopItemsSliceSelector
   );
-  const dispatch = useDispatch();
 
-  const closePopup = () => {
-    onClose();
-  };
-
-  const findItem = cartItems.find((obj) => obj.id === params.id);
+  const itemInCart = cartItems.find((obj) => obj.id === params.id);
   const dopItemsPrice = dopItems.reduce(
     (sum, obj) => Number(obj.price) + sum,
     0
@@ -64,9 +61,9 @@ export const ItemPopup: React.FC<ItemPopupProps> = ({
     0
   );
 
-  const price = !findItem
+  const price = !itemInCart
     ? params.price * count + dopItemsPrice
-    : params.price * findItem.count + dopItemsCartPrice;
+    : params.price * itemInCart.count + dopItemsCartPrice;
 
   const paramsCart = {
     id: params.id,
@@ -75,12 +72,11 @@ export const ItemPopup: React.FC<ItemPopupProps> = ({
     count,
     price: params.price,
   };
-
   const onAddItem = () => {
-    if (!findItem) {
+    if (!itemInCart) {
       dispatch(addCartItem(paramsCart));
       if (dopItems) {
-        dispatch(addCDopItemToCart(dopItems));
+        dispatch(addDopItemsToCart(dopItems));
         dispatch(addDopItemToCart(dopItems));
       }
       setTimeout(() => {
@@ -99,14 +95,14 @@ export const ItemPopup: React.FC<ItemPopupProps> = ({
 
   return (
     <div
-      className={classNames(`${styles.popup} popup`, {
+      className={classNames(styles.popup, "popup", {
         [styles.active]: visible,
         [styles.mini]: mini,
       })}
     >
       <div ref={refPopup} className={styles.box}>
         <svg
-          onClick={() => closePopup()}
+          onClick={() => onClose()}
           width="20"
           height="20"
           className={styles.item__close}
@@ -118,13 +114,10 @@ export const ItemPopup: React.FC<ItemPopupProps> = ({
             <img
               src={params.img}
               alt={params.name}
-              className={`${styles.item__img} shadow ${
-                params.category === 2 ? styles.rotated : ""
-              } ${
-                params.category === 4 || params.category === 5
-                  ? styles.small
-                  : ""
-              }`}
+              className={classNames(styles.item__img, "popup", {
+                [styles.rotated]: params.category === 2,
+                [styles.small]: params.category === 4 || params.category === 5,
+              })}
             />
             <div className={styles.popup__content}>
               <h2 className={styles.item__title}>{params.name}</h2>
@@ -139,7 +132,7 @@ export const ItemPopup: React.FC<ItemPopupProps> = ({
               >
                 <div className={styles.added}>Добавлено</div>
                 <div
-                  className={`${styles.content} ${findItem && styles.active}`}
+                  className={`${styles.content} ${itemInCart && styles.active}`}
                 >
                   <div className={styles.added}>Добавлено</div>
                   <div className={styles.remove}>Удалить</div>
@@ -157,13 +150,13 @@ export const ItemPopup: React.FC<ItemPopupProps> = ({
             <div className={styles.rightSide}>
               <ItemAddList
                 title="Добавить соус"
-                categoryId={6}
+                category={6}
                 refLink={refAddList1}
                 itemId={params.id}
               />
               <ItemAddList
                 title="Добавить напитки"
-                categoryId={7}
+                category={7}
                 refLink={refAddList2}
                 itemId={params.id}
               />

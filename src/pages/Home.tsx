@@ -7,7 +7,7 @@ import { categoriesSliceSelector } from "../redux/categories/selectors";
 import { TCategory } from "../redux/categories/types";
 import { productsSliceSelector } from "../redux/products/selectors";
 import { fetchProducts } from "../redux/products/slice";
-import { TProduct } from "../redux/products/types";
+import { LoadingStatus, TProduct } from "../redux/products/types";
 import { useAppDispatch } from "../redux/store";
 
 import { ItemPopup } from "../components/ItemPopup";
@@ -21,6 +21,18 @@ import { popupSliceSelector } from "../redux/popup/selectors";
 
 export const Home: React.FC = () => {
   const dispatch = useAppDispatch();
+  const { items: products, status } = useSelector(productsSliceSelector);
+  const { items: categories } = useSelector(categoriesSliceSelector);
+  const { mini } = useSelector(popupSliceSelector);
+
+  const refs = categories.reduce((acc: any, value, index: number) => {
+    acc[index] = React.createRef<HTMLDivElement>();
+    return acc;
+  }, {});
+  const refPopup = React.useRef<HTMLDivElement>(null);
+  const refItemsBox = React.useRef<HTMLDivElement>(null);
+  const refAddList1 = React.createRef<HTMLDivElement>();
+  const refAddList2 = React.createRef<HTMLDivElement>();
 
   React.useEffect(() => {
     const getProducts = () => {
@@ -29,31 +41,15 @@ export const Home: React.FC = () => {
         window.scrollTo(0, 0);
       } catch (error) {
         alert("Ошибка!");
-        console.log("Ошибка при получении продуктов...");
-        console.log(error);
+        console.log(error, "Ошибка при получении продуктов...");
       }
     };
     getProducts();
   }, []);
 
-  const { items: products, status } = useSelector(productsSliceSelector);
-  const { items: categories } = useSelector(categoriesSliceSelector);
-  const { mini: isMini } = useSelector(popupSliceSelector);
-
-  const refs = categories.reduce((acc: any, value, index: number) => {
-    acc[index] = React.createRef<HTMLDivElement>();
-    return acc;
-  }, {});
-
-  const refPopup = React.useRef<HTMLDivElement>(null);
-  const refItem = React.useRef<HTMLDivElement>(null);
-
-  const refAddList1 = React.createRef<HTMLDivElement>();
-  const refAddList2 = React.createRef<HTMLDivElement>();
-
   const closePopup = () => {
     dispatch(setPopupVisible(false));
-    if (isMini) {
+    if (mini) {
       setTimeout(() => dispatch(setPopupMini(false)), 300);
     } else {
       dispatch(setPopupMini(false));
@@ -70,7 +66,7 @@ export const Home: React.FC = () => {
     }
   };
 
-  const handleClickOutSide = (e: MouseEvent) => {
+  const clickOutPopup = (e: MouseEvent) => {
     const _event = e as MouseEvent & {
       path: Node[];
     };
@@ -78,15 +74,15 @@ export const Home: React.FC = () => {
       refPopup.current &&
       !_event.path.includes(refPopup.current) &&
       // @ts-ignore
-      !_event.path.includes(refItem.current)
+      !_event.path.includes(refItemsBox.current)
     ) {
       closePopup();
     }
   };
   React.useEffect(() => {
-    document.body.addEventListener("click", handleClickOutSide);
+    document.body.addEventListener("click", clickOutPopup);
     return () => {
-      document.body.removeEventListener("click", handleClickOutSide);
+      document.body.removeEventListener("click", clickOutPopup);
     };
   }, []);
 
@@ -96,8 +92,9 @@ export const Home: React.FC = () => {
         <div className="container">
           <div className="main__inner">
             <Sidebar refs={refs} />
-            <div ref={refItem} className="items">
-              {status === "loading"
+
+            <div ref={refItemsBox} className="items">
+              {status === LoadingStatus.LOADING
                 ? Array(2)
                     .fill(0)
                     .map((_, index) => (
@@ -112,7 +109,7 @@ export const Home: React.FC = () => {
                         </div>
                       </div>
                     ))
-                : categories.map((obj: TCategory, index) => (
+                : categories.map((obj: TCategory, index: number) => (
                     <div
                       id={`group${index}`}
                       ref={refs[index]}

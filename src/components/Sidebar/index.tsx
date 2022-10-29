@@ -1,16 +1,18 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { categoriesSliceSelector } from "../../redux/categories/selectors";
-import { fetchCategories } from "../../redux/categories/slice";
-import { TCategory } from "../../redux/categories/types";
-import { useAppDispatch } from "../../redux/store";
-
+import Scrollspy from "react-scrollspy";
 import Sticky from "react-stickynode";
 
-import styles from "./Sidebar.module.scss";
 import { LoadingElement } from "../LoadingElement/LoadingElement";
-import Scrollspy from "react-scrollspy";
+import { useAppDispatch } from "../../redux/store";
+import { fetchCategories } from "../../redux/categories/slice";
 import { productsSliceSelector } from "../../redux/products/selectors";
+import { categoriesSliceSelector } from "../../redux/categories/selectors";
+import { TCategory } from "../../redux/categories/types";
+import { LoadingStatus } from "../../redux/products/types";
+
+import styles from "./Sidebar.module.scss";
+import classNames from "classnames";
 
 export type TSidebar = {
   refs: any;
@@ -18,7 +20,14 @@ export type TSidebar = {
 
 export const Sidebar: React.FC<TSidebar> = ({ refs }) => {
   const dispatch = useAppDispatch();
-  const {items: categories} = useSelector(categoriesSliceSelector);
+  const { items: categories } = useSelector(categoriesSliceSelector);
+  const { status } = useSelector(productsSliceSelector);
+
+  const [isActive, setIsActive] = React.useState(true);
+  const [isFixed, setIsFixed] = React.useState(false);
+  const refSidebar = React.useRef(null);
+
+  const groups = categories.map((_, index) => `group${index}`);
 
   React.useEffect(() => {
     const getCategories = () => {
@@ -26,33 +35,20 @@ export const Sidebar: React.FC<TSidebar> = ({ refs }) => {
         dispatch(fetchCategories());
       } catch (error) {
         alert("Ошибка!");
-        console.log("Ошибка при получении категорий...");
-        console.log(error);
+        console.log(error, "Ошибка при получении категорий...");
       }
     };
     getCategories();
   }, []);
 
-  const [isActive, setIsActive] = React.useState(true);
-  const refList = React.useRef();
-  // @ts-ignore
-  const scrollLeft = refList.current && refList.current.offsetWidth * 0.2;
-
-  const handleClickCategory = (id: number) => {
+  const onClickCategory = (id: number) => {
     refs[id].current.scrollIntoView({
       behavior: "smooth",
       block: "start",
     });
-    if (refList.current) {
-      // @ts-ignore
-      refList.current.scrollTo({ behavior: "smooth", left: scrollLeft });
-    }
   };
 
-  const refSidebar = React.useRef(null);
-  const [isFixed, setIsFixed] = React.useState(false);
-
-  const toggleVisible = (e: any) => {
+  const toggleFixed = () => {
     const scrolled = document.documentElement.scrollTop;
     if (scrolled > 10) {
       setIsActive(false);
@@ -62,22 +58,20 @@ export const Sidebar: React.FC<TSidebar> = ({ refs }) => {
     }
   };
   React.useEffect(() => {
-    window.addEventListener("scroll", toggleVisible);
+    window.addEventListener("scroll", toggleFixed);
     return () => {
-      window.addEventListener("scroll", toggleVisible);
+      window.removeEventListener("scroll", toggleFixed);
     };
   }, []);
-
-  const { status } = useSelector(productsSliceSelector);
-
-  const groups = categories.map((_, index) => `group${index}`);
 
   return (
     <Sticky
       enabled={window.innerWidth <= 1023 ? false : true}
       top={30}
       bottomBoundary={document.documentElement.scrollHeight - 350}
-      className={`${styles.sidebar} ${isFixed ? styles.fixed : ""}`}
+      className={classNames(styles.sidebar, {
+        [styles.fixed]: isFixed,
+      })}
       ref={refSidebar}
     >
       <Scrollspy
@@ -86,19 +80,19 @@ export const Sidebar: React.FC<TSidebar> = ({ refs }) => {
         currentClassName={styles.active}
         className={`${styles.sidebar__list}`}
       >
-        {status === "loading"
+        {status === LoadingStatus.LOADING
           ? Array(7)
               .fill(0)
               .map((_, index) => (
                 <LoadingElement nameClass={"category"} key={index} />
               ))
-          : categories.map((obj: TCategory, index) => (
+          : categories.map((obj: TCategory, index: number) => (
               <li
                 key={`${obj.name}_${index}`}
-                className={`${styles.item} ${
-                  index === 0 && isActive ? styles.active : ""
-                }`}
-                onClick={() => handleClickCategory(index)}
+                className={classNames(styles.item, {
+                  [styles.active]: index === 0 && isActive,
+                })}
+                onClick={() => onClickCategory(index)}
               >
                 <svg width="20" height="20">
                   <use xlinkHref={`./icons.svg#category${obj.id}`} />

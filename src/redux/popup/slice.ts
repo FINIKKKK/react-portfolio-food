@@ -27,12 +27,12 @@ const popupSlice = createSlice({
     setPopupParams(state, { payload }: PayloadAction<TParams>) {
       state.params = payload;
     },
-    plusCountItem(state) {
+    plusItem(state) {
       if (state.itemCount !== 99) {
         state.itemCount++;
       }
     },
-    minusCountItem(state) {
+    minusItem(state) {
       if (state.itemCount !== 1) {
         state.itemCount--;
       }
@@ -47,8 +47,8 @@ export const {
   setPopupVisible,
   setPopupMini,
   setPopupParams,
-  plusCountItem,
-  minusCountItem,
+  plusItem,
+  minusItem,
   resetCountPopup,
 } = popupSlice.actions;
 

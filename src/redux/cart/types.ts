@@ -4,6 +4,7 @@ export type TCartItem = {
   name: string;
   count: number;
   price: number;
+  category?: number;
 };
 
 export interface TCartSlice {

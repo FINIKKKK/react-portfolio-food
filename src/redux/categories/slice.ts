@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
-import { TCategoriesSlice, TCategory, CategoryStatus } from "./types";
+import { LoadingStatus } from "../products/types";
+import { TCategoriesSlice, TCategory } from "./types";
 
 export const fetchCategories = createAsyncThunk<TCategory[]>(
   "categories/fetchCategoriesStatus",
@@ -12,9 +13,8 @@ export const fetchCategories = createAsyncThunk<TCategory[]>(
   }
 );
 
-
 const initialState: TCategoriesSlice = {
-  status: CategoryStatus.LOADING,
+  status: LoadingStatus.LOADING,
   items: [],
 };
 
@@ -28,15 +28,15 @@ const categoriesSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(fetchCategories.pending, (state) => {
-      state.status = CategoryStatus.LOADING;
+      state.status = LoadingStatus.LOADING;
       state.items = [];
     });
     builder.addCase(fetchCategories.fulfilled, (state, { payload }) => {
-      state.status = CategoryStatus.SUCCESS;
+      state.status = LoadingStatus.SUCCESS;
       state.items = payload;
     });
     builder.addCase(fetchCategories.rejected, (state) => {
-      state.status = CategoryStatus.ERROR;
+      state.status = LoadingStatus.ERROR;
       state.items = [];
     });
   },

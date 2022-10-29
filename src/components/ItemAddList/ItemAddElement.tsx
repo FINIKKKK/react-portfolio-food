@@ -1,16 +1,18 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import classNames from "classnames";
+
 import {
   addDopItem,
   addOneDopItemToCart,
   removeDopItem,
 } from "../../redux/dopItems/slice";
-
-import styles from "./ItemAddList.module.scss";
-import { dopItemsSliceSelector } from "../../redux/dopItems/selectors";
 import { removeDopItemInItem } from "../../redux/dopItems/slice";
 import { addCartItem, removeOrMinusCartItem } from "../../redux/cart/slice";
 import { cartSliceSelector } from "../../redux/cart/selectors";
+import { dopItemsSliceSelector } from "../../redux/dopItems/selectors";
+
+import styles from "./ItemAddList.module.scss";
 
 type ItemAddElementProps = {
   id: number;
@@ -18,7 +20,7 @@ type ItemAddElementProps = {
   name: string;
   price: number;
   itemId: number;
-  category: number;
+  category?: number;
 };
 
 export const ItemAddElement: React.FC<ItemAddElementProps> = ({
@@ -30,60 +32,48 @@ export const ItemAddElement: React.FC<ItemAddElementProps> = ({
   category,
 }) => {
   const dispatch = useDispatch();
-  const { items: dopItems, itemsCart } = useSelector(dopItemsSliceSelector);
   const { items: cartItems } = useSelector(cartSliceSelector);
-  const itemIdInCart = cartItems.find((obj) => obj.id === itemId);
-  // @ts-ignore
-  const dopItemsInItem = itemsCart.filter((obj) => obj.itemId === itemId);
-  // @ts-ignore
-  const findItemInItem = dopItemsInItem.find((obj) => obj.id === id);
-  const dopItemsInItem2 = itemsCart.filter(
-    (obj) => obj.itemId === itemId && obj.id === id
-  );
-  // console.log(itemsCart);
-  // console.log(dopItemsInItem2);
-  // const findItemInItem2 = dopItemsInItem.find((obj) => obj.id === id);
+  const { dopItems, dopItemsCart } = useSelector(dopItemsSliceSelector);
 
-  const findItem = dopItems.find((obj) => obj.id === id);
-  const count = 1;
+  const dopItem = dopItems.find((obj) => obj.id === id);
+  const itemInCart = cartItems.find((obj) => obj.id === itemId);
+  const dopItemsInItem = dopItemsCart.filter((obj) => obj.itemId === itemId);
+  const dopItemInItem = dopItemsInItem.find((obj) => obj.id === id);
+
   const params = {
     id,
     img,
     name,
     price,
-    count,
+    count: 1,
     itemId,
     category,
   };
-  const onClickAddItem = () => {
-    if (!findItemInItem && itemIdInCart) {
-      // @ts-ignore
+
+  const addItem = () => {
+    if (!dopItemInItem && itemInCart) {
       dispatch(addOneDopItemToCart(params));
       dispatch(addCartItem(params));
     }
 
-    if (findItemInItem) {
+    if (dopItemInItem) {
       dispatch(removeDopItemInItem({ itemId, id }));
       dispatch(removeOrMinusCartItem(params));
     }
 
-    if (!findItemInItem && !findItem && !itemIdInCart) {
-      // @ts-ignore
-      dispatch(addDopItem({ id, img, name, price, count, itemId, category }));
+    if (!dopItemInItem && !dopItem && !itemInCart) {
+      dispatch(addDopItem(params));
     } else {
-      dispatch(
-        // @ts-ignore
-        removeDopItem({ id, img, name, price, count, itemId, category })
-      );
+      dispatch(removeDopItem(params));
     }
   };
 
   return (
     <div
-      onClick={() => onClickAddItem()}
-      className={`${styles.element} ${
-        findItem || findItemInItem ? styles.active : ""
-      }`}
+      onClick={() => addItem()}
+      className={classNames(styles.element, {
+        [styles.active]: dopItem || dopItemInItem,
+      })}
     >
       <img src={img} alt={name} className={styles.img} />
       <div className={styles.info}>

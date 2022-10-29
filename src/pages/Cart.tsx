@@ -1,24 +1,25 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+
 import { CartEmpty, CartItem } from "../components";
-import { cartSliceSelector } from "../redux/cart/selectors";
 import { clearCart } from "../redux/cart/slice";
-import { TCartItem } from "../redux/cart/types";
 import { resetDopItemsCart } from "../redux/dopItems/slice";
+import { cartSliceSelector } from "../redux/cart/selectors";
+import { TCartItem } from "../redux/cart/types";
 
 export const Cart: React.FC = () => {
-  const { items } = useSelector(cartSliceSelector);
-
-  const { totalCount, totalPrice } = useSelector(cartSliceSelector);
   const dispatch = useDispatch();
+  const { items } = useSelector(cartSliceSelector);
+  const { totalCount, totalPrice } = useSelector(cartSliceSelector);
+
+  const sortedItems =
+    items && [...items].sort((prev, next) => prev.id - next.id);
 
   const onClearCart = () => {
     dispatch(clearCart());
     dispatch(resetDopItemsCart());
   };
-
-  const items1 = items && [...items].sort((prev, next) => prev.id - next.id);
 
   return (
     <section className="cart">
@@ -55,7 +56,7 @@ export const Cart: React.FC = () => {
 
                 <table className="cart__table">
                   <tbody>
-                    {items1.map((obj: TCartItem) => (
+                    {sortedItems.map((obj: TCartItem) => (
                       <CartItem key={obj.id} {...obj} />
                     ))}
                   </tbody>

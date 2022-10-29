@@ -1,42 +1,48 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import classNames from "classnames";
 
 import logo from "../../assets/img/logo.png";
 import logoMini from "../../assets/img/logo--mini.png";
-
-import styles from "./Header.module.scss";
-import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
 import { cartSliceSelector } from "../../redux/cart/selectors";
 import { dopItemsSliceSelector } from "../../redux/dopItems/selectors";
 
+import styles from "./Header.module.scss";
+
 export const Header: React.FC = React.memo(() => {
-  const { items: itemsCart, totalCount } = useSelector(cartSliceSelector);
-  const { itemsCart: dopItemsCart } = useSelector(dopItemsSliceSelector);
+  const { items: cartItems, totalCount } = useSelector(cartSliceSelector);
+  const { dopItemsCart } = useSelector(dopItemsSliceSelector);
 
   const isMounted = React.useRef(false);
+  const [isFixed, setIsFixed] = React.useState(false);
 
   React.useEffect(() => {
     if (isMounted.current) {
-      const data = JSON.stringify(itemsCart);
+      const data = JSON.stringify(cartItems);
       localStorage.setItem("cart", data);
 
       const data2 = JSON.stringify(dopItemsCart);
       localStorage.setItem("dopItems", data2);
     }
     isMounted.current = true;
-  }, [itemsCart, dopItemsCart, totalCount]);
+  }, [cartItems, dopItemsCart]);
 
-  const [isFixed, setIsFixed] = React.useState(false);
-
-  const toggleVisible = (e: any) => {
+  const toggleFixed = () => {
     const scrolled = document.documentElement.scrollTop;
+
     if (scrolled > 10) {
       setIsFixed(true);
     } else {
       setIsFixed(false);
     }
   };
-  window.addEventListener("scroll", toggleVisible);
+  React.useEffect(() => {
+    document.body.addEventListener("scroll", toggleFixed);
+    return () => {
+      document.body.removeEventListener("scroll", toggleFixed);
+    };
+  }, []);
 
   return (
     <header className={`${styles.header}`} id="header">
@@ -57,9 +63,9 @@ export const Header: React.FC = React.memo(() => {
             </a>
             <Link
               to="/cart"
-              className={`${styles.header__cart}  ${
-                window.innerWidth <= 1023 && isFixed ? styles.fixed : ""
-              }`}
+              className={classNames(styles.header__cart, {
+                [styles.fixed]: window.innerWidth <= 1023 && isFixed,
+              })}
             >
               <svg width="20" height="20">
                 <use xlinkHref="./icons.svg#cart" />

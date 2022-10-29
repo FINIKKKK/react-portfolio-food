@@ -1,15 +1,11 @@
+import { LoadingStatus } from "../products/types";
+
 export type TCategory = {
   id: number,
   name: string;
 };
 
 export interface TCategoriesSlice {
-  status: CategoryStatus;
+  status: LoadingStatus;
   items: TCategory[];
-}
-
-export enum CategoryStatus {
-  LOADING = "loading",
-  SUCCESS = "success",
-  ERROR = "error",
 }

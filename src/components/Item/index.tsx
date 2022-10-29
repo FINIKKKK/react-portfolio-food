@@ -1,5 +1,7 @@
+import classNames from "classnames";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+
 import { cartSliceSelector } from "../../redux/cart/selectors";
 import {
   setPopupMini,
@@ -26,19 +28,23 @@ export const Item: React.FC<ItemProps> = ({
   price,
   category,
 }) => {
+  const dispatch = useDispatch();
+
+  const { items: cartItems } = useSelector(cartSliceSelector);
+
   const [height, setHeight] = React.useState(0);
   const [isActive, setIsActive] = React.useState(false);
-
   const titleRef = React.useRef<HTMLHeadingElement>(null);
-  const {items: cartItems} = useSelector(cartSliceSelector);
 
-  React.useEffect(() => {
-    if (titleRef.current !== undefined && titleRef.current !== null) {
-      setHeight(titleRef?.current?.offsetHeight);
-    }
-  }, []);
-
-  const dispatch = useDispatch();
+  const contentMinus = category === 1 || category === 2 || category === 6;
+  const params = {
+    id,
+    img,
+    name,
+    text,
+    price,
+    category,
+  };
 
   const openPopup = () => {
     if (category === 6 || category === 7) {
@@ -46,40 +52,46 @@ export const Item: React.FC<ItemProps> = ({
     }
     dispatch(setPopupVisible(true));
     document.documentElement.className = "fixed";
-    dispatch(setPopupParams({ id, img, name, text, price, category }));
+    dispatch(setPopupParams(params));
   };
 
   React.useEffect(() => {
-    const findActiveItem = cartItems.find((obj) => obj.id === id);
-    if (findActiveItem) {
+    if (titleRef.current !== undefined && titleRef.current !== null) {
+      setHeight(titleRef?.current?.offsetHeight);
+    }
+  }, []);
+
+  React.useEffect(() => {
+    const isCartItem = cartItems.find((obj) => obj.id === id);
+    if (isCartItem) {
       setIsActive(true);
     }
   }, [cartItems]);
 
-  const contentMinus = category === 1 || category === 2 || category === 6;
-
   return (
     <div
       onClick={() => openPopup()}
-      className={`${styles.item} item ${isActive ? styles.active : ""}`}
+      className={classNames(styles.item, "item", {
+        [styles.active]: isActive,
+      })}
     >
       <img
         src={img}
         alt={name}
-        className={`${styles.item__img} shadow ${
-          category === 2 ? styles.rotated : ""
-        }`}
+        className={classNames(styles.item__img, "shadow", {
+          [styles.rotated]: category === 2,
+        })}
       />
       <div
-        className={`${styles.item__content} ${
-          contentMinus ? styles.content__minus : ""
-        }`}
+        className={classNames(styles.item__content, {
+          [styles.content__minus]: contentMinus,
+        })}
       >
         <h5
           ref={titleRef}
-          className={`${styles.item__title} ${
-            height && height > 40 ? styles.mini : ""
-          }`}
+          className={classNames(styles.item__title, {
+            [styles.mini]: height && height > 40,
+          })}
         >
           {name}
         </h5>

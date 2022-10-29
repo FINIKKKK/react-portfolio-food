@@ -1,5 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
+
 import { removeCartItem } from "../../redux/cart/slice";
 import { ItemCounter } from "../ItemCounter";
 
@@ -20,7 +21,7 @@ export const CartItem: React.FC<CartItemProps> = ({
   name,
   count,
   price,
-  category
+  category,
 }) => {
   const dispatch = useDispatch();
 
@@ -37,7 +38,7 @@ export const CartItem: React.FC<CartItemProps> = ({
         <h5>{name}</h5>
       </td>
       <td className={styles.counter}>
-        <ItemCounter id={id} category={category}/>
+        <ItemCounter id={id} category={category} />
       </td>
       <td className={styles.price}>{price} ₽</td>
       <td className={styles.deleteBtn}>

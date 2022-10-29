@@ -1,9 +1,10 @@
 import React from "react";
+import { Link } from "react-router-dom";
+
 import logo from "../../assets/img/logo.png";
 import logoMini from "../../assets/img/logo--mini.png";
 
 import styles from "./Footer.module.scss";
-import { Link } from "react-router-dom";
 
 export const Footer: React.FC = () => {
   return (

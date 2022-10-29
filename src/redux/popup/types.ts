@@ -1,5 +1,3 @@
-import { TDopItem } from "../dopItems/types";
-
 export type TParams = {
   id: number;
   img: string;

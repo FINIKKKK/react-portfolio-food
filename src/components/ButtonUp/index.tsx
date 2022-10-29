@@ -23,6 +23,12 @@ export const ButtonUp: React.FC<ButtonUpProps> = () => {
       setVisible(false);
     }
   };
+  React.useEffect(() => {
+    window.addEventListener("scroll", toggleVisible);
+    return () => {
+      window.removeEventListener("scroll", toggleVisible);
+    };
+  }, []);
 
   const scrollToTop = () => {
     window.scrollTo({
@@ -31,15 +37,12 @@ export const ButtonUp: React.FC<ButtonUpProps> = () => {
     });
   };
 
-  window.addEventListener("scroll", toggleVisible);
-
   return (
     <div
       onClick={scrollToTop}
-      className={`${styles.btn} ${visible ? styles.show : ""}`}
-      // className={classNames(styles.btn, {
-      //   [styles.show]: visible,
-      // })}
+      className={classNames(styles.btn, {
+        [styles.show]: visible,
+      })}
     >
       <svg width="20" height="20">
         <use xlinkHref="./icons.svg#up" />

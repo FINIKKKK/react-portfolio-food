@@ -3,8 +3,8 @@ import { getDopItemsInfo } from "../../utils/getInfoCart";
 import { TDopItemsSlice, TDopItem } from "./types";
 
 const initialState: TDopItemsSlice = {
-  items: [],
-  itemsCart: getDopItemsInfo().itemsCart,
+  dopItems: [],
+  dopItemsCart: getDopItemsInfo().dopItemsCart,
 };
 
 const dopItemsSlice = createSlice({
@@ -12,42 +12,43 @@ const dopItemsSlice = createSlice({
   initialState,
   reducers: {
     addDopItem(state, { payload }: PayloadAction<TDopItem>) {
-      state.items.push({ ...payload });
+      state.dopItems.push({ ...payload });
     },
     removeDopItem(state, { payload }: PayloadAction<TDopItem>) {
-      state.items = state.items.filter((obj) => obj.id !== payload.id);
+      state.dopItems = state.dopItems.filter((obj) => obj.id !== payload.id);
     },
     resetDopItems(state) {
-      state.items = [];
+      state.dopItems = [];
     },
+    
     addDopItemToCart(state, { payload }: PayloadAction<TDopItem[]>) {
-      state.itemsCart.push(...payload);
+      state.dopItemsCart.push(...payload);
     },
     addOneDopItemToCart(state, { payload }: PayloadAction<TDopItem>) {
-      state.itemsCart.push({ ...payload });
+      state.dopItemsCart.push({ ...payload });
     },
     removeDopItemInItem(
       state,
       { payload }: PayloadAction<{ itemId: number; id: number }>
     ) {
-      state.itemsCart = state.itemsCart.filter(
+      state.dopItemsCart = state.dopItemsCart.filter(
         (obj) => !(obj.itemId === payload.itemId && obj.id === payload.id)
       );
     },
     removeAllDopItemInItem(state, { payload }: PayloadAction<number>) {
-      state.itemsCart = state.itemsCart.filter((obj) => obj.id !== payload);
+      state.dopItemsCart = state.dopItemsCart.filter((obj) => obj.id !== payload);
     },
     removeDopItemsWhenRemoveItem(state, { payload }: PayloadAction<number>) {
-      state.itemsCart = state.itemsCart.filter((obj) => obj.itemId !== payload);
+      state.dopItemsCart = state.dopItemsCart.filter((obj) => obj.itemId !== payload);
     },
     resetDopItemsCart(state) {
-      state.itemsCart = [];
+      state.dopItemsCart = [];
     },
     removeLastDopItem(state, { payload }: PayloadAction<{category: number; id: number}>) {
       // @ts-ignore
-      const index = state.itemsCart.findLastIndex((obj: any) => (obj.category === payload.category && obj.id === payload.id));
+      const index = state.dopItemsCart.findLastIndex((obj: any) => (obj.category === payload.category && obj.id === payload.id));
       if (index >= 0) {
-        state.itemsCart.splice(index, 1);
+        state.dopItemsCart.splice(index, 1);
       }
     },
   },
