@@ -5,10 +5,7 @@ import { Item, LoadingElement, Sidebar } from "../components";
 import { ButtonUp } from "../components/ButtonUp";
 import { categoriesSliceSelector } from "../redux/categories/selectors";
 import { TCategory } from "../redux/categories/types";
-import {
-  productsSliceSelector,
-  statusSliceSelector,
-} from "../redux/products/selectors";
+import { productsSliceSelector } from "../redux/products/selectors";
 import { fetchProducts } from "../redux/products/slice";
 import { TProduct } from "../redux/products/types";
 import { useAppDispatch } from "../redux/store";
@@ -20,7 +17,7 @@ import {
   setPopupVisible,
 } from "../redux/popup/slice";
 import { resetDopItems } from "../redux/dopItems/slice";
-import { miniPopupSliceSelector } from "../redux/popup/selectors";
+import { popupSliceSelector } from "../redux/popup/selectors";
 
 export const Home: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -39,16 +36,14 @@ export const Home: React.FC = () => {
     getProducts();
   }, []);
 
-  const products = useSelector(productsSliceSelector);
-  const categories = useSelector(categoriesSliceSelector);
-  const isMini = useSelector(miniPopupSliceSelector);
+  const { items: products, status } = useSelector(productsSliceSelector);
+  const { items: categories } = useSelector(categoriesSliceSelector);
+  const { mini: isMini } = useSelector(popupSliceSelector);
 
   const refs = categories.reduce((acc: any, value, index: number) => {
     acc[index] = React.createRef<HTMLDivElement>();
     return acc;
   }, {});
-
-  const status = useSelector(statusSliceSelector);
 
   const refPopup = React.useRef<HTMLDivElement>(null);
   const refItem = React.useRef<HTMLDivElement>(null);

@@ -11,6 +11,7 @@ type CartItemProps = {
   name: string;
   count: number;
   price: number;
+  category?: number;
 };
 
 export const CartItem: React.FC<CartItemProps> = ({
@@ -19,6 +20,7 @@ export const CartItem: React.FC<CartItemProps> = ({
   name,
   count,
   price,
+  category
 }) => {
   const dispatch = useDispatch();
 
@@ -35,7 +37,7 @@ export const CartItem: React.FC<CartItemProps> = ({
         <h5>{name}</h5>
       </td>
       <td className={styles.counter}>
-        <ItemCounter id={id}/>
+        <ItemCounter id={id} category={category}/>
       </td>
       <td className={styles.price}>{price} ₽</td>
       <td className={styles.deleteBtn}>

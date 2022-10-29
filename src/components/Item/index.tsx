@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { cartItemsSliceSelector } from "../../redux/cart/selectors";
+import { cartSliceSelector } from "../../redux/cart/selectors";
 import {
   setPopupMini,
   setPopupParams,
@@ -30,7 +30,7 @@ export const Item: React.FC<ItemProps> = ({
   const [isActive, setIsActive] = React.useState(false);
 
   const titleRef = React.useRef<HTMLHeadingElement>(null);
-  const cartItems = useSelector(cartItemsSliceSelector);
+  const {items: cartItems} = useSelector(cartSliceSelector);
 
   React.useEffect(() => {
     if (titleRef.current !== undefined && titleRef.current !== null) {

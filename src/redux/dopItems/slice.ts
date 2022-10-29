@@ -41,7 +41,14 @@ const dopItemsSlice = createSlice({
       state.itemsCart = state.itemsCart.filter((obj) => obj.itemId !== payload);
     },
     resetDopItemsCart(state) {
-        state.itemsCart = []
+      state.itemsCart = [];
+    },
+    removeLastDopItem(state, { payload }: PayloadAction<{category: number; id: number}>) {
+      // @ts-ignore
+      const index = state.itemsCart.findLastIndex((obj: any) => (obj.category === payload.category && obj.id === payload.id));
+      if (index >= 0) {
+        state.itemsCart.splice(index, 1);
+      }
     },
   },
 });
@@ -55,7 +62,8 @@ export const {
   removeDopItemInItem,
   removeAllDopItemInItem,
   removeDopItemsWhenRemoveItem,
-  resetDopItemsCart
+  resetDopItemsCart,
+  removeLastDopItem,
 } = dopItemsSlice.actions;
 
 export default dopItemsSlice.reducer;

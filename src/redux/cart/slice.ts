@@ -61,24 +61,10 @@ const cartSlice = createSlice({
     },
     clearCart(state) {
       state.items = [];
+
+      state.totalCount = getTotalCount(state.items);
+      state.totalPrice = getTotalPrice(state.items);
     },
-    // removeOrMinusCartItemWhenRemove(
-    //   state,
-    //   { payload }: PayloadAction<TCartItem[]>
-    // ) {
-    //   const findItems = payload.filter((obj) => obj.id === payload.id);
-
-    //   findItems.forEach((obj) => {
-    //     if (obj.count !== 1) {
-    //       obj.count--;
-    //     } else {
-    //       state.items = state.items.filter((obj) => obj.id !== payload.id);
-    //     }
-    //   });
-
-    //   state.totalCount = getTotalCount(state.items);
-    //   state.totalPrice = getTotalPrice(state.items);
-    // },
     addCDopItemToCart(state, { payload }: PayloadAction<TDopItem[]>) {
       const findItems1 = state.items.filter((obj1) =>
         payload.some((obj2) => obj2.id === obj1.id)
@@ -98,15 +84,6 @@ const cartSlice = createSlice({
       state.totalCount = getTotalCount(state.items);
       state.totalPrice = getTotalPrice(state.items);
     },
-    // removeDopItemInItem(state, { payload }: PayloadAction<number[]>) {
-    //   // @ts-ignore
-    //   const findItem = state.items.find((obj) => obj.id === payload.itemId);
-    //   // @ts-ignore
-    //   state.items = findItem.dop.filter((obj) => obj.id !== payload.id);
-
-    //   if(findItem) {
-    //   }
-    // },
   },
 });
 
@@ -118,7 +95,6 @@ export const {
   clearCart,
   addCDopItemToCart,
   removeOrMinusCartItem,
-  // removeOrMinusCartItemWhenRemove,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;

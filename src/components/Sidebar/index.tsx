@@ -8,9 +8,9 @@ import { useAppDispatch } from "../../redux/store";
 import Sticky from "react-stickynode";
 
 import styles from "./Sidebar.module.scss";
-import { statusSliceSelector } from "../../redux/products/selectors";
 import { LoadingElement } from "../LoadingElement/LoadingElement";
 import Scrollspy from "react-scrollspy";
+import { productsSliceSelector } from "../../redux/products/selectors";
 
 export type TSidebar = {
   refs: any;
@@ -18,7 +18,7 @@ export type TSidebar = {
 
 export const Sidebar: React.FC<TSidebar> = ({ refs }) => {
   const dispatch = useAppDispatch();
-  const categories = useSelector(categoriesSliceSelector);
+  const {items: categories} = useSelector(categoriesSliceSelector);
 
   React.useEffect(() => {
     const getCategories = () => {
@@ -37,7 +37,6 @@ export const Sidebar: React.FC<TSidebar> = ({ refs }) => {
   const refList = React.useRef();
   // @ts-ignore
   const scrollLeft = refList.current && refList.current.offsetWidth * 0.2;
-  console.log(scrollLeft);
 
   const handleClickCategory = (id: number) => {
     refs[id].current.scrollIntoView({
@@ -62,12 +61,14 @@ export const Sidebar: React.FC<TSidebar> = ({ refs }) => {
       setIsFixed(false);
     }
   };
-  window.addEventListener("scroll", toggleVisible);
+  React.useEffect(() => {
+    window.addEventListener("scroll", toggleVisible);
+    return () => {
+      window.addEventListener("scroll", toggleVisible);
+    };
+  }, []);
 
-  // console.log(document.documentElement.scrollHeight);
-
-
-  const status = useSelector(statusSliceSelector);
+  const { status } = useSelector(productsSliceSelector);
 
   const groups = categories.map((_, index) => `group${index}`);
 

@@ -7,32 +7,20 @@ import {
   removeDopItemsWhenRemoveItem,
   resetDopItems,
 } from "../../redux/dopItems/slice";
-import { cartItemsSliceSelector } from "../../redux/cart/selectors";
 import {
   addCartItem,
   addCDopItemToCart,
   removeCartItem,
   removeOrMinusCartItem,
 } from "../../redux/cart/slice";
-import {
-  countItemSliceSelector,
-  miniPopupSliceSelector,
-  paramsSliceSelector,
-  visibleSliceSelector,
-} from "../../redux/popup/selectors";
-import {
-  resetCountPopup,
-  setPopupMini,
-  setPopupVisible,
-} from "../../redux/popup/slice";
+import { popupSliceSelector } from "../../redux/popup/selectors";
+import { resetCountPopup, setPopupVisible } from "../../redux/popup/slice";
 import { ItemAddList } from "../ItemAddList";
 import { ItemCounter } from "../ItemCounter";
 
 import styles from "./ItemPopup.module.scss";
-import {
-  dopItemsCartSliceSelector,
-  dopItemsSliceSelector,
-} from "../../redux/dopItems/selectors";
+import { dopItemsSliceSelector } from "../../redux/dopItems/selectors";
+import { cartSliceSelector } from "../../redux/cart/selectors";
 
 type ItemPopupProps = {
   refPopup: any;
@@ -47,19 +35,21 @@ export const ItemPopup: React.FC<ItemPopupProps> = ({
   refAddList1,
   refAddList2,
 }) => {
-  const visible = useSelector(visibleSliceSelector);
+  const {
+    visible,
+    mini,
+    params,
+    itemCount: count,
+  } = useSelector(popupSliceSelector);
+  const { items: cartItems } = useSelector(cartSliceSelector);
+  const { items: dopItems, itemsCart: dopItemsCart } = useSelector(
+    dopItemsSliceSelector
+  );
   const dispatch = useDispatch();
 
   const closePopup = () => {
     onClose();
   };
-
-  const params = useSelector(paramsSliceSelector);
-  const miniPopup = useSelector(miniPopupSliceSelector);
-  const count = useSelector(countItemSliceSelector);
-  const cartItems = useSelector(cartItemsSliceSelector);
-  const dopItems = useSelector(dopItemsSliceSelector);
-  const dopItemsCart = useSelector(dopItemsCartSliceSelector);
 
   const findItem = cartItems.find((obj) => obj.id === params.id);
   const dopItemsPrice = dopItems.reduce(
@@ -73,12 +63,6 @@ export const ItemPopup: React.FC<ItemPopupProps> = ({
     (sum, obj) => Number(obj.price) + sum,
     0
   );
-  // @ts-ignore
-  // const findItemDopItemsPrice = findItem?.dop.reduce(
-  //   // @ts-ignore
-  //   (sum, obj) => Number(obj.price) + sum,
-  //   0
-  // );
 
   const price = !findItem
     ? params.price * count + dopItemsPrice
@@ -117,7 +101,7 @@ export const ItemPopup: React.FC<ItemPopupProps> = ({
     <div
       className={classNames(`${styles.popup} popup`, {
         [styles.active]: visible,
-        [styles.mini]: miniPopup,
+        [styles.mini]: mini,
       })}
     >
       <div ref={refPopup} className={styles.box}>
@@ -147,9 +131,7 @@ export const ItemPopup: React.FC<ItemPopupProps> = ({
               <p className={styles.item__text}>{params.text}</p>
               <div className={styles.item__info}>
                 <ItemCounter id={params.id} />
-                {miniPopup && (
-                  <div className={styles.item__price}>{price} ₽</div>
-                )}
+                {mini && <div className={styles.item__price}>{price} ₽</div>}
               </div>
               <div
                 onClick={onAddItem}
@@ -171,7 +153,7 @@ export const ItemPopup: React.FC<ItemPopupProps> = ({
               </div>
             </div>
           </div>
-          {!miniPopup && (
+          {!mini && (
             <div className={styles.rightSide}>
               <ItemAddList
                 title="Добавить соус"

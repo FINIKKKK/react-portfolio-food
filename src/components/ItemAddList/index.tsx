@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { dopItemsCartSliceSelector } from "../../redux/dopItems/selectors";
+import { dopItemsSliceSelector } from "../../redux/dopItems/selectors";
 import { productsSliceSelector } from "../../redux/products/selectors";
 import { TProduct } from "../../redux/products/types";
 import { ItemAddElement } from "./ItemAddElement";
@@ -20,16 +20,15 @@ export const ItemAddList: React.FC<ItemAddListProps> = ({
   refLink,
   itemId,
 }) => {
-  const products = useSelector(productsSliceSelector);
+  const { items: products } = useSelector(productsSliceSelector);
+  const { itemsCart } = useSelector(dopItemsSliceSelector);
   const products1 = products.filter(
     (obj: TProduct) => obj.category === categoryId
   );
-  console.log(products1);
 
-  const itemsCart = useSelector(dopItemsCartSliceSelector);
   const dopItemsInItem = itemsCart.filter((obj) => obj.itemId === itemId);
   // @ts-ignore
-  const findItemInItem = dopItemsInItem.find((obj) => obj.id === id);
+  // const findItemInItem = dopItemsInItem.find((obj) => obj.id === id);
   // const products2 = [...products].sort((prev, next) => dopItemsInItem.indexOf(prev.id) -  dopItemsInItem.indexOf(next.id);
 
   return (
@@ -44,6 +43,7 @@ export const ItemAddList: React.FC<ItemAddListProps> = ({
             name={obj.name}
             price={obj.price}
             itemId={itemId}
+            category={obj.category}
           />
         ))}
       </div>

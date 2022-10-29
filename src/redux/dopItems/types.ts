@@ -5,6 +5,7 @@ export type TDopItem = {
   price: number;
   count: number;
   itemId: number;
+  category: string;
 };
 
 export interface TDopItemsSlice {

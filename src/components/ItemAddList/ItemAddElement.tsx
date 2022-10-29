@@ -5,16 +5,12 @@ import {
   addOneDopItemToCart,
   removeDopItem,
 } from "../../redux/dopItems/slice";
-import { cartItemsSliceSelector } from "../../redux/cart/selectors";
 
 import styles from "./ItemAddList.module.scss";
-import {
-  dopItemsCartSliceSelector,
-  dopItemsSliceSelector,
-} from "../../redux/dopItems/selectors";
-import { TDopItem } from "../../redux/dopItems/types";
+import { dopItemsSliceSelector } from "../../redux/dopItems/selectors";
 import { removeDopItemInItem } from "../../redux/dopItems/slice";
-import { addCartItem, removeCartItem, removeOrMinusCartItem,  } from "../../redux/cart/slice";
+import { addCartItem, removeOrMinusCartItem } from "../../redux/cart/slice";
+import { cartSliceSelector } from "../../redux/cart/selectors";
 
 type ItemAddElementProps = {
   id: number;
@@ -22,6 +18,7 @@ type ItemAddElementProps = {
   name: string;
   price: number;
   itemId: number;
+  category: number;
 };
 
 export const ItemAddElement: React.FC<ItemAddElementProps> = ({
@@ -30,11 +27,11 @@ export const ItemAddElement: React.FC<ItemAddElementProps> = ({
   name,
   price,
   itemId,
+  category,
 }) => {
   const dispatch = useDispatch();
-  const dopItems = useSelector(dopItemsSliceSelector);
-  const itemsCart = useSelector(dopItemsCartSliceSelector);
-  const cartItems = useSelector(cartItemsSliceSelector);
+  const { items: dopItems, itemsCart } = useSelector(dopItemsSliceSelector);
+  const { items: cartItems } = useSelector(cartSliceSelector);
   const itemIdInCart = cartItems.find((obj) => obj.id === itemId);
   // @ts-ignore
   const dopItemsInItem = itemsCart.filter((obj) => obj.itemId === itemId);
@@ -56,9 +53,11 @@ export const ItemAddElement: React.FC<ItemAddElementProps> = ({
     price,
     count,
     itemId,
+    category,
   };
   const onClickAddItem = () => {
     if (!findItemInItem && itemIdInCart) {
+      // @ts-ignore
       dispatch(addOneDopItemToCart(params));
       dispatch(addCartItem(params));
     }
@@ -69,9 +68,13 @@ export const ItemAddElement: React.FC<ItemAddElementProps> = ({
     }
 
     if (!findItemInItem && !findItem && !itemIdInCart) {
-      dispatch(addDopItem({ id, img, name, price, count, itemId }));
+      // @ts-ignore
+      dispatch(addDopItem({ id, img, name, price, count, itemId, category }));
     } else {
-      dispatch(removeDopItem({ id, img, name, price, count, itemId }));
+      dispatch(
+        // @ts-ignore
+        removeDopItem({ id, img, name, price, count, itemId, category })
+      );
     }
   };
 

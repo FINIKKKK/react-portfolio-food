@@ -6,19 +6,12 @@ import logoMini from "../../assets/img/logo--mini.png";
 import styles from "./Header.module.scss";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import {
-  cartItemsSliceSelector,
-  cartSliceSelector,
-} from "../../redux/cart/selectors";
-import {
-  dopItemsCartSliceSelector,
-  dopItemsSliceSelector,
-} from "../../redux/dopItems/selectors";
+import { cartSliceSelector } from "../../redux/cart/selectors";
+import { dopItemsSliceSelector } from "../../redux/dopItems/selectors";
 
-export const Header: React.FC = () => {
-  const { totalCount } = useSelector(cartSliceSelector);
-  const itemsCart = useSelector(cartItemsSliceSelector);
-  const dopItemsCart = useSelector(dopItemsCartSliceSelector);
+export const Header: React.FC = React.memo(() => {
+  const { items: itemsCart, totalCount } = useSelector(cartSliceSelector);
+  const { itemsCart: dopItemsCart } = useSelector(dopItemsSliceSelector);
 
   const isMounted = React.useRef(false);
 
@@ -31,7 +24,7 @@ export const Header: React.FC = () => {
       localStorage.setItem("dopItems", data2);
     }
     isMounted.current = true;
-  }, [itemsCart, dopItemsCart]);
+  }, [itemsCart, dopItemsCart, totalCount]);
 
   const [isFixed, setIsFixed] = React.useState(false);
 
@@ -78,4 +71,4 @@ export const Header: React.FC = () => {
       </div>
     </header>
   );
-};
+});

@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import React from "react";
 
 import styles from "./ButtonUp.module.scss";
@@ -36,6 +37,9 @@ export const ButtonUp: React.FC<ButtonUpProps> = () => {
     <div
       onClick={scrollToTop}
       className={`${styles.btn} ${visible ? styles.show : ""}`}
+      // className={classNames(styles.btn, {
+      //   [styles.show]: visible,
+      // })}
     >
       <svg width="20" height="20">
         <use xlinkHref="./icons.svg#up" />
