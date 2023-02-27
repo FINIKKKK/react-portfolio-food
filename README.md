@@ -1,25 +1,24 @@
 # Food Store 🥪
 
-Предварительная настройка приложения сделана с помощью [Create React App](https://create-react-app.dev/)  
-Для хранения данных и функционала бэкенда использовался [MockAPI](https://mockapi.io/docs)
+The application was set up using [Create React App](https://create-react-app.dev/)  
+[MockAPI](https://mockapi.io/docs) was used for storing backend data and functionality.
 
-## Верстка 📌:
-https://github.com/DIGIKRASH/html-portfolio-food
+## Layout 📌:
+https://github.com/FINIKKKK/html-portfolio-food
 
-## Инструменты 🛠:
+## Tools 🛠:
 - **ReactJS 18**
 - **React Hooks**
 - **TypeScript**
-- **Redux Toolkit** (хранение данных)
-- **CreateAsyncThunk** (api в redux)
-- **SCSS-Modules** / (стилизация)
-- **classNames** / (более удобное задание классов)
-- **React Router v6** (навигация)
-- **Axios** (отправка запроса на бэкенд)
-- **Кастомный скелетон** (имитация загрузки)
-- **react-stickynode**  (фиксированный sidebar)
-- **react-scrollspy**  (активный блок в поле видимости)
-- **LocaleStorage** (локальное хранение данных)
+- **Redux Toolkit** (data storage)
+- **CreateAsyncThunk** (API in Redux)
+- **SCSS-Modules** / (styling)
+- **classNames** / (easier class assignment)
+- **React Router v6** (navigation)
+- **Axios** (sending requests to the backend)
+- **Custom skeleton** (loading animation)
+- **react-stickynode**  (fixed sidebar)
+- **LocaleStorage** (local data storage)
 
 ## Demo 🔥:
 http://react-portfolio-food.vercel.app/
